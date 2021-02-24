@@ -54,6 +54,11 @@ body {
   font-size: 2.5rem;
 }
 
+.small-title {
+  font-family: 'Oswald', sans-serif;
+  color: white;
+}
+
 .header-content .text {
   line-height: 1.7;
   margin-top: 1rem;
