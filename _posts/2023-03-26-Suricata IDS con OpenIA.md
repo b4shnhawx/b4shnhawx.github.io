@@ -14,7 +14,7 @@ En resumen, la aplicación de las IA en el ámbito de la ciberseguridad puede pr
 En este proyecto he querido configurar un Suricata para detectar anomalias en la red, lo cual generaria una alerta y se notificaria por medio de correo electronico junto con una recomendacion de mitigación generada por una IA (en este caso chatGPT).
 
 
-![_config.yml]({{ site.baseurl }}/images/config.png)
+![_config.yml]({{ site.baseurl }}/images/lan.png)
 
 ## Descripción
 
