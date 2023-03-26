@@ -3,8 +3,6 @@ layout: post
 title: Suricata IDS con OpenIA
 ---
 
-## Introducción
-
 Las inteligencias artificiales (IA) están transformando el mundo de manera significativa, y su aplicación en el ámbito de la ciberseguridad está siendo cada vez más relevante. En el contexto actual, la ciberseguridad se ha vuelto una preocupación importante para empresas y organizaciones, ya que las amenazas cibernéticas se han vuelto cada vez más sofisticadas y frecuentes. Los sistemas de detección de intrusiones (IDS, por sus siglas en inglés) son herramientas esenciales para detectar y responder a posibles amenazas a la seguridad de la red.
 
 Las IA se están utilizando cada vez más en los IDS, lo que permite una detección más rápida y precisa de posibles amenazas. Las IA pueden aprender patrones de comportamiento de los usuarios y detectar anomalías en tiempo real, lo que permite una respuesta más rápida y eficaz ante posibles ataques. Además, las IA también pueden identificar amenazas emergentes y desconocidas que podrían haber pasado desapercibidas para los IDS tradicionales.
@@ -15,10 +13,3 @@ En este proyecto he querido configurar un Suricata para detectar anomalias en la
 
 
 ![_config.yml]({{ site.baseurl }}/images/lan.png)
-
-## Descripción
-
-## Ejemplos de uso
-
-
-[Hackutils](https://github.com/b4shnhawx/Hack-Utils)
