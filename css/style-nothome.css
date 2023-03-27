@@ -241,4 +241,20 @@ footer p {
     -moz-transform: translate(0,350px);
 }
 
+/* CODE BOXES*/
+xmp:before {
+  content: counter(line);
+  counter-increment: line;
+}
+
+pre {
+  white-space: nowrap;
+  counter-reset: line;
+  min-height: 350px;
+  background: #222222;
+  padding: 15px;
+  color: #ffffff;
+  overflow: scroll
+}
+
 /**/
