@@ -2,7 +2,113 @@
 layout: about me
 ---
 
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+.container {
+  position: relative;
+  width: 50%;
+}
+
+.image {
+  opacity: 1;
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: .5s ease;
+  backface-visibility: hidden;
+}
+
+.middle {
+  transition: .5s ease;
+  opacity: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%)
+}
+
+.container:hover .logo {
+  opacity: 0.3;
+}
+
+.container:hover .middle {
+  opacity: 1;
+}
+
+.logo {
+  height: 350px;
+  width: 350px;
+  border-radius: 50%;
+  opacity: 1;
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: .5s ease;
+  backface-visibility: hidden;
+}
+
+.svg-icon.linkedin {
+    background-image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDBweCIgaGVpZ2h0PSI0MHB4IiB2aWV3Qm94PSIwIDAgNjAgNjAiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeG1sbnM6c2tldGNoPSJodHRwOi8vd3d3LmJvaGVtaWFuY29kaW5nLmNvbS9za2V0Y2gvbnMiPg0KICAgIDxwYXRoIGQ9Ik0wLjQ0OTE2MTM3NiwzMCBDMC40NDkxNjEzNzYsMTMuNDMxNDU2NyAxMy42Nzk1MjE3LDAgMzAsMCBDNDYuMzIwNDc4MywwIDU5LjU1MDgzODYsMTMuNDMxNDU2NyA1OS41NTA4Mzg2LDMwIEM1OS41NTA4Mzg2LDQ2LjU2ODU0MzMgNDYuMzIwNDc4Myw2MCAzMCw2MCBDMTMuNjc5NTIxNyw2MCAwLjQ0OTE2MTM3Niw0Ni41Njg1NDMzIDAuNDQ5MTYxMzc2LDMwIFogTTAuNDQ5MTYxMzc2LDMwIiBmaWxsPSIjMDA3QkI2IiBza2V0Y2g6dHlwZT0iTVNTaGFwZUdyb3VwIj48L3BhdGg+DQogICAgPHBhdGggZD0iTTIyLjQ2ODAzOTIsMjMuNzA5ODE0NCBMMTUuNzgwODM2NiwyMy43MDk4MTQ0IEwxNS43ODA4MzY2LDQ0LjEzNjk1MzcgTDIyLjQ2ODAzOTIsNDQuMTM2OTUzNyBMMjIuNDY4MDM5MiwyMy43MDk4MTQ0IFogTTIyLjQ2ODAzOTIsMjMuNzA5ODE0NCIgaWQ9IlBhdGgiIGZpbGw9IiNGRkZGRkYiIHNrZXRjaDp0eXBlPSJNU1NoYXBlR3JvdXAiPjwvcGF0aD4NCiAgICA8cGF0aCBkPSJNMjIuOTA4NDc1MywxNy4zOTA4NzYxIEMyMi44NjUwNzI3LDE1LjM4ODAwODEgMjEuNDU2MjkxNywxMy44NjI1MDQgMTkuMTY4NjQxOCwxMy44NjI1MDQgQzE2Ljg4MDk5MTgsMTMuODYyNTA0IDE1LjM4NTQwNTcsMTUuMzg4MDA4MSAxNS4zODU0MDU3LDE3LjM5MDg3NjEgQzE1LjM4NTQwNTcsMTkuMzUyMjU3OSAxNi44MzY3ODgsMjAuOTIxNjg4NiAxOS4wODE4MzY2LDIwLjkyMTY4ODYgTDE5LjEyNDU3MTQsMjAuOTIxNjg4NiBDMjEuNDU2MjkxNywyMC45MjE2ODg2IDIyLjkwODQ3NTMsMTkuMzUyMjU3OSAyMi45MDg0NzUzLDE3LjM5MDg3NjEgWiBNMjIuOTA4NDc1MywxNy4zOTA4NzYxIiBpZD0iUGF0aCIgZmlsbD0iI0ZGRkZGRiIgc2tldGNoOnR5cGU9Ik1TU2hhcGVHcm91cCI+PC9wYXRoPg0KICAgIDxwYXRoIGQ9Ik00Ni41ODQ2NTAyLDMyLjQyNDY1NjMgQzQ2LjU4NDY1MDIsMjYuMTUwMzIyNiA0My4yODU2NTM0LDIzLjIzMDE0NTYgMzguODg1MTY1OCwyMy4yMzAxNDU2IEMzNS4zMzQ3MDExLDIzLjIzMDE0NTYgMzMuNzQ1MDk4MywyNS4yMTI4MTI4IDMyLjg1NzU0ODksMjYuNjAzNjg5NiBMMzIuODU3NTQ4OSwyMy43MTAzNTY3IEwyNi4xNjk1NDQ5LDIzLjcxMDM1NjcgQzI2LjI1NzY4NTYsMjUuNjI3MTMzOCAyNi4xNjk1NDQ5LDQ0LjEzNzQ5NiAyNi4xNjk1NDQ5LDQ0LjEzNzQ5NiBMMzIuODU3NTQ4OSw0NC4xMzc0OTYgTDMyLjg1NzU0ODksMzIuNzI5Mjk2MSBDMzIuODU3NTQ4OSwzMi4xMTg3OTYzIDMyLjkwMDk1MTQsMzEuNTA5Nzg3NyAzMy4wNzc3NjY5LDMxLjA3MjY4OTggQzMzLjU2MTA3MTMsMjkuODUzMDQ1OCAzNC42NjE0OTM3LDI4LjU5MDI4ODUgMzYuNTA4OTc0NywyOC41OTAyODg1IEMzOC45Mjk3NzAzLDI4LjU5MDI4ODUgMzkuODk3NDQ3NiwzMC40NjM0MTAxIDM5Ljg5NzQ0NzYsMzMuMjA4NDIyNiBMMzkuODk3NDQ3Niw0NC4xMzY5NTM3IEw0Ni41ODQzODMyLDQ0LjEzNjk1MzcgTDQ2LjU4NDY1MDIsMzIuNDI0NjU2MyBaIE00Ni41ODQ2NTAyLDMyLjQyNDY1NjMiIGlkPSJQYXRoIiBmaWxsPSIjRkZGRkZGIiBza2V0Y2g6dHlwZT0iTVNTaGFwZUdyb3VwIj48L3BhdGg+DQogICAgPHBhdGggZD0iTTU5LjU1MDgzODYsMzAgQzU5LjU1MDgzODYsNDYuNTY4NTQzMyA0Ni4zMjA0NzgzLDYwIDMwLDYwIEMyMy45NDcxMjEyLDYwIDE4LjMxOTI4NTgsNTguMTUyNTEzNCAxMy42MzM5MDUxLDU0Ljk4Mjc3NTQgTDQ3LjQ5NDEyNjQsNS44MTk0MTEwMyBDNTQuODA2MDI0NSwxMS4yODA2NTAzIDU5LjU1MDgzODYsMjAuMDc3Nzk3MyA1OS41NTA4Mzg2LDMwIFogTTU5LjU1MDgzODYsMzAiIGlkPSJyZWZsZWMiIGZpbGwtb3BhY2l0eT0iMC4wOCIgZmlsbD0iIzAwMDAwMCIgc2tldGNoOnR5cGU9Ik1TU2hhcGVHcm91cCI+PC9wYXRoPg0KPC9zdmc+);
+}
+
+.svg-icon {
+    width: 40px;
+    height: 40px;
+    display: inline-block;
+}
+
+</style>
+</head>
+<body>
+
+<div class="container" align="right">
+  <img src="img_avatar.png" href="https://www.linkedin.com/in/darribash" alt="Avatar" class="logo" style="width:100%">
+  <h1>Mi historia</h1><br>
+  <div class="middle">
+  	
+    <a href="https://www.linkedin.com/in/darribash" class="svg-icon linkedin"></a>
+  </div>
+</div>
+  
+</body>
+</html>
+
 <h1>Mi historia</h1><br>
+
+¡Hola! Soy David, el creador de este blog personal que estás visitando. <br><br>
+
+Desde los 14 años he sentido una gran curiosidad por el mundo de la informática y los ordenadores, aunque al principio no sabía cómo adentrarme en ese mundillo. Creía que esto no estaba hecho para mí. <br><br>
+
+Después de terminar la ESO, decidí dar el salto y comencé mi carrera académica, profesional e incluso mi hobby. Empecé un CFGM en Telecomunicaciones, donde adquirí los conocimientos básicos en electrónica, electricidad, informática, redes y programación. <br><br>
+
+Después de realizar varios proyectos con Arduino, empecé a sentir que aún no había aprendido todo lo que me gustaría en ese ciclo formativo. Así que decidí comprarme mi primera Raspberry Pi, ya que oía hablar de ella en todas partes. Fue entonces cuando me di cuenta de cuánto conocimiento me faltaba y del potencial que había en general en el campo de la informática. Empecé a experimentar y a aprender cada día más con pequeños proyectos, convirtiéndose en uno de mis hobbies. <br><br>
+
+Por aquel entonces, estaba a punto de terminar el CFGM y ya había aprendido los conceptos básicos de Python y Bash. Continué mi carrera académica con el CFGS de Telecomunicaciones, donde seguí aprendiendo electrónica, programación y, sobre todo, redes de datos. Años más tarde, me dedicaría profesionalmente a eso. <br><br>
+
+En mi primer trabajo, comencé como operador L1 de redes, donde configuraba, en su mayoría, routers Cisco y antenas 4G Teldat. Durante el año que estuve trabajando, me di cuenta de la enorme importancia y potencial de las redes, por lo que seguí investigando por mi cuenta hasta empezar a gustarme mucho más de lo que ya me gustaban durante el ciclo formativo. <br><br>
+
+A partir de aquí, quise orientar mi carrera profesional hacia un ámbito donde también hubiera redes, pero pudiera aprender mucho más. Fue entonces cuando descubrí la ciberseguridad, donde había redes y la posibilidad de "romper cosas". <br><br>
+
+Actualmente, llevo más de 3 años trabajando en un SOC como analista, donde he tenido la oportunidad de explotar al máximo mi potencial y de aprender algo nuevo cada día. <br><br>
+</p>
+ 
+<h1>Este blog</h1><br><br>
+
+<p>
+En este blog me gustaría ir publicando algunos de mis proyectos mas importantes y trabajados, asi como tutoriales, scripts o cualquier cosa util que vea. <br><br>
+
+Con tal de llegar a algun aficionado de este mundillo me doy por satisfecho :) <br><br>
+
+En el pie del blog puedes localizarme para cualquier duda, consulta, mejora o propuesta. <br><br>
+</p>
+
+
+
+
+
 
 <p>
 <img src="../images/aboutme.jpg" align="right" class="logo">
