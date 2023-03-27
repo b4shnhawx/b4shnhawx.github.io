@@ -242,19 +242,40 @@ footer p {
 }
 
 /* CODE BOXES*/
-xmp:before {
-  content: counter(line);
-  counter-increment: line;
+/* Force scrollbars onto browser window */
+body {
+margin-bottom: 200%;
 }
 
-pre {
-  white-space: nowrap;
-  counter-reset: line;
-  min-height: 350px;
-  background: #222222;
-  padding: 15px;
-  color: #ffffff;
-  overflow: scroll
+/* Box styles */
+.myBox {
+border: none;
+padding: 5px;
+font: 24px/36px sans-serif;
+width: 200px;
+height: 200px;
+overflow: scroll;
+}
+
+/* Scrollbar styles */
+::-webkit-scrollbar {
+width: 12px;
+height: 12px;
+}
+
+::-webkit-scrollbar-track {
+border-radius: 10px;
+width: 2px;
+border: 1px dotted pink;
+}
+
+::-webkit-scrollbar-thumb {
+background: pink; 
+border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+background: hotpink;  
 }
 
 /**/
