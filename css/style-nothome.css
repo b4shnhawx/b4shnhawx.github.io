@@ -280,7 +280,7 @@ background: #3c65c4;
 /**/
 
 pre {
-  white-space: nowrap;
+  white-space: pre;
   counter-reset: line;
   max-height: 350px;
   background: #222222;
