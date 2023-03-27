@@ -14,8 +14,8 @@ En este proyecto he querido configurar un Suricata para detectar anomalias en la
 
 ![_config.yml]({{ site.baseurl }}/images/lan.png)
 
-
-<div class="myBox">
+<pre>
+<code class="myBox"><xmp>
 print (x)
 
 aaaa
@@ -28,7 +28,8 @@ aaaa
 bbbbbbb
 
 
-</div>
+</xmp></code>
+</pre>
 
 
 ```
