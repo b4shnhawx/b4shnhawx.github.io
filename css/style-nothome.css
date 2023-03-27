@@ -251,7 +251,6 @@ margin-bottom: 200%;
 .myBox {
 border: none;
 padding: 5px;
-font: 24px/36px sans-serif;
 width: 200px;
 height: 200px;
 overflow: scroll;
@@ -266,16 +265,34 @@ height: 12px;
 ::-webkit-scrollbar-track {
 border-radius: 10px;
 width: 2px;
-border: 1px dotted pink;
+border: 1px dotted #222222;
 }
 
 ::-webkit-scrollbar-thumb {
-background: pink; 
+background: #3c9dc4; 
 border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-background: hotpink;  
+background: #3c65c4;  
 }
 
 /**/
+
+pre {
+  white-space: nowrap;
+  counter-reset: line;
+  max-height: 350px;
+  background: #222222;
+  padding: 30px;
+  color: #ffffff;
+  overflow: scroll;
+}
+
+.section::-webkit-scrollbar-thumb {
+  border: 5px solid transparent;
+  border-radius: 100px;
+  background-color: #8070d4;
+  background-clip: content-box;
+}
+
