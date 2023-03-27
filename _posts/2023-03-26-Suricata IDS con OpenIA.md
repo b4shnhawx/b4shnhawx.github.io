@@ -14,6 +14,25 @@ En este proyecto he querido configurar un Suricata para detectar anomalias en la
 
 ![_config.yml]({{ site.baseurl }}/images/lan.png)
 
+
+
+<pre>
+<code><xmp>x="hello world"
+print (x)
+
+aaaa
+
+
+
+
+
+
+bbbbbbb
+
+
+</xmp></code>
+</pre>
+
 ```
 #!/bin/bash
 
