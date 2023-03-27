@@ -13,3 +13,73 @@ En este proyecto he querido configurar un Suricata para detectar anomalias en la
 
 
 ![_config.yml]({{ site.baseurl }}/images/lan.png)
+
+```
+#!/bin/bash
+
+sudo suricata-update update-sources
+latest_version=`sudo suricata-update check-versions | grep "is outdated" | egrep -o "[0-9]{1,5}\.[0-9]{1,5}\.[0-9]{1,5}" | tail -n1`
+actual_version=`sudo suricata-update check-versions | grep "Found Suricata version" | egrep -o "[0-9]{1,5}\.[0-9]{1,5}\.[0-9]{1,5}"`
+
+cd /home/pi
+
+now=$(date)
+echo "$now    Inicializando script." >> /home/pi/Scripts/log/update_suricata.log
+
+if [[ -z $latest_version ]];
+then
+	now=$(date)
+	echo "$now       No requiere actualizacion." >> /home/pi/Scripts/log/update_suricata.log
+
+	exit 0
+else
+	now=$(date)
+	echo "$now       Requiere actualizacion." >> /home/pi/Scripts/log/update_suricata.log
+	echo "$now       Descargando actualizacion." >> /home/pi/Scripts/log/update_suricata.log
+	wget https://www.openinfosecfoundation.org/download/suricata-$latest_version.tar.gz
+
+	now=$(date)
+	echo "$now       Descomprimiendo archivos." >> /home/pi/Scripts/log/update_suricata.log
+	tar -xvf suricata-$latest_version.tar.gz
+
+	now=$(date)
+	echo "$now       Configurando archivos." >> /home/pi/Scripts/log/update_suricata.log
+	cd /home/pi/suricata-$latest_version/
+	./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --enable-nfqueue --enable-lua
+
+	now=$(date)
+	echo "$now       Compilando todos los archivos necesarios." >> /home/pi/Scripts/log/update_suricata.log
+	make
+
+	now=$(date)
+	echo "$now       Instalando." >> /home/pi/Scripts/log/update_suricata.log
+	sudo make install
+
+	now=$(date)
+	echo "$now       Comprobando instalacion." >> /home/pi/Scripts/log/update_suricata.log
+	sudo suricata-update update-sources
+	actual_version=`sudo suricata-update check-versions | grep "Found Suricata version" | egrep -o "[0-9]{1,5}\.[0-9]{1,5}\.[0-9]{1,5}"`
+
+	cd /home/pi
+
+	if [[ $actual_version == $latest_version ]];
+	then
+		now=$(date)
+		echo "$now       Instalado correctamente." >> /home/pi/Scripts/log/update_suricata.log
+	else
+		now=$(date)
+                echo "$now       La instalacion ha fallado." >> /home/pi/Scripts/log/update_suricata.log
+	fi
+
+	now=$(date)
+	echo "$now       Eliminando archivos." >> /home/pi/Scripts/log/update_suricata.log
+
+	rm /home/pi/Scripts/suricata*
+fi
+
+now=$(date)
+echo "$now    Script finalizado." >> /home/pi/Scripts/log/update_suricata.log
+
+exit 0
+
+```
