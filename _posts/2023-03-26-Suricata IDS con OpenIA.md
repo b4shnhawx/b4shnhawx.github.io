@@ -16,6 +16,7 @@ En este proyecto he querido configurar un Suricata para detectar anomalias en la
 
 <pre>
 <code class="myBox">
+<div style="margin-left:20px">
 print (x)
 
 aaaa
@@ -27,7 +28,7 @@ aaaa
 
 bbbbbbb
 
-
+</div>
 </code>
 </pre>
 
