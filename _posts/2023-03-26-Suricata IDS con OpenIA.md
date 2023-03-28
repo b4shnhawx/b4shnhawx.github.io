@@ -17,23 +17,6 @@ En este proyecto he querido configurar un Suricata para detectar anomalias en la
 <pre>
 <code class="myBox">
 <div style="margin-left:20px">
-print (x)
-
-aaaa
-
-
-
-
-
-
-bbbbbbb
-
-</div>
-</code>
-</pre>
-
-
-```
 #!/bin/bash
 
 sudo suricata-update update-sources
@@ -100,5 +83,6 @@ now=$(date)
 echo "$now    Script finalizado." >> /home/pi/Scripts/log/update_suricata.log
 
 exit 0
-
-```
+</div>
+</code>
+</pre>
