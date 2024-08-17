@@ -1,8 +1,17 @@
-<!DOCTYPE html><html lang="en-gb"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no"><title>Search - b4shnhawx.github.io</title><meta name="robots" content="noindex, follow"><meta name="generator" content="Publii Open-Source CMS for Static Site"><link rel="alternate" type="application/atom+xml" href="https://b4shnhawx.github.io/feed.xml"><link rel="alternate" type="application/json" href="https://b4shnhawx.github.io/feed.json"><meta property="og:title" content="b4shnhawx.github.io"><meta property="og:site_name" content="b4shnhawx.github.io"><meta property="og:description" content=""><meta property="og:url" content="https://b4shnhawx.github.io/"><meta property="og:type" content="website"><link rel="stylesheet" href="https://b4shnhawx.github.io/assets/css/fontawesome-all.min.css?v=85514f933f9e0b82460af63f1a403fa5"><link rel="stylesheet" href="https://b4shnhawx.github.io/assets/css/style.css?v=2b2c7a97fb8ae000525c647368bdceb7"><script type="application/ld+json">{"@context":"http://schema.org","@type":"Organization","name":"b4shnhawx.github.io","url":"https://b4shnhawx.github.io/","sameAs":["https://www.linkedin.com/in/darribash/"]}</script><noscript><style>img[loading] {
+<!DOCTYPE html><html lang="en-gb"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no"><title>Search - b4shnhawx.github.io</title><meta name="robots" content="noindex, follow"><meta name="generator" content="Publii Open-Source CMS for Static Site"><link rel="alternate" type="application/atom+xml" href="https://b4shnhawx.github.io/feed.xml"><link rel="alternate" type="application/json" href="https://b4shnhawx.github.io/feed.json"><meta property="og:title" content="b4shnhawx.github.io"><meta property="og:site_name" content="b4shnhawx.github.io"><meta property="og:description" content=""><meta property="og:url" content="https://b4shnhawx.github.io/"><meta property="og:type" content="website"><link rel="stylesheet" href="https://b4shnhawx.github.io/assets/css/fontawesome-all.min.css?v=85514f933f9e0b82460af63f1a403fa5"><link rel="stylesheet" href="https://b4shnhawx.github.io/assets/css/style.css?v=2ee26bc36976b5b12ed83012bdd410d8"><script type="application/ld+json">{"@context":"http://schema.org","@type":"Organization","name":"b4shnhawx.github.io","url":"https://b4shnhawx.github.io/","sameAs":["https://www.linkedin.com/in/darribash/"]}</script><noscript><style>img[loading] {
                     opacity: 1;
                 }</style></noscript></head><body class="is-preload search-template"><script>document.addEventListener("DOMContentLoaded", function() {
     // Selecciona el contenedor donde quieres insertar el HTML
     var sidebarInner = document.querySelector('#sidebar .inner');
+
+    // Crea el contenedor del logo
+    var logoContainer = document.createElement('div');
+    logoContainer.style.width = "150px";
+    logoContainer.style.height = "150px";
+    logoContainer.style.overflow = "hidden";  // Evita desbordamiento
+    logoContainer.style.display = "flex";  // Asegura centrado
+    logoContainer.style.alignItems = "center";
+    logoContainer.style.justifyContent = "center";
 
     // Crea el elemento de imagen
     var logoImg = document.createElement('img');
@@ -10,8 +19,11 @@
     logoImg.alt = "Fazt Logo";
     logoImg.classList.add('logo-sidebar');
 
-    // Inserta la imagen al inicio del contenedor
-    sidebarInner.insertBefore(logoImg, sidebarInner.firstChild);
+    // Añade la imagen al contenedor del logo
+    logoContainer.appendChild(logoImg);
+
+    // Inserta el contenedor con la imagen al inicio del contenedor de la barra lateral
+    sidebarInner.insertBefore(logoContainer, sidebarInner.firstChild);
 });</script><div id="wrapper"><div id="main"><div class="inner"><header id="header"><a class="logo" href="https://b4shnhawx.github.io/"><strong>b4shnhawx.github.io</strong></a><ul class="icons"><li><a href="https://www.linkedin.com/in/darribash/" class="icon brands fa-linkedin"><span class="label">LinkedIn</span></a></li></ul></header><article class="post"><header class="main post__header"><h1>Search</h1></header><div class="post__inner"><form action="https://b4shnhawx.github.io/search.html" class="search-page-form"><input type="search" name="q" placeholder="search..." class="search-page-input" required> <button type="submit" class="search-page-button"><span>Submit</span></button></form><div id="search-results"></div><script>(async function () {
 				console.log("./feed.json");
 				console.log("q");
