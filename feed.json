@@ -1,0 +1,28 @@
+{
+    "version": "https://jsonfeed.org/version/1",
+    "title": "b4shnhawx.github.io",
+    "description": "",
+    "home_page_url": "https://b4shnhawx.github.io",
+    "feed_url": "https://b4shnhawx.github.io/feed.json",
+    "user_comment": "",
+    "author": {
+        "name": "b4shnhawx"
+    },
+    "items": [
+        {
+            "id": "https://b4shnhawx.github.io/raspberry.html",
+            "url": "https://b4shnhawx.github.io/raspberry.html",
+            "title": "Raspberry",
+            "summary": "asdasdasddasd",
+            "content_html": "\n  <p>\n    asdasdasddasd\n  </p>",
+            "author": {
+                "name": "b4shnhawx"
+            },
+            "tags": [
+                   "raspberrypi"
+            ],
+            "date_published": "2024-08-17T17:48:32+02:00",
+            "date_modified": "2024-08-17T18:09:40+02:00"
+        }
+    ]
+}

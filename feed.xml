@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/">
+    <title>b4shnhawx.github.io</title>
+    <link href="https://b4shnhawx.github.io/feed.xml" rel="self" />
+    <link href="https://b4shnhawx.github.io" />
+    <updated>2024-08-17T18:09:40+02:00</updated>
+    <author>
+        <name>b4shnhawx</name>
+    </author>
+    <id>https://b4shnhawx.github.io</id>
+
+    <entry>
+        <title>Raspberry</title>
+        <author>
+            <name>b4shnhawx</name>
+        </author>
+        <link href="https://b4shnhawx.github.io/raspberry.html"/>
+        <id>https://b4shnhawx.github.io/raspberry.html</id>
+            <category term="raspberrypi"/>
+
+        <updated>2024-08-17T17:48:32+02:00</updated>
+            <summary>
+                <![CDATA[
+                    asdasdasddasd
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                
+  <p>
+    asdasdasddasd
+  </p>
+            ]]>
+        </content>
+    </entry>
+</feed>
