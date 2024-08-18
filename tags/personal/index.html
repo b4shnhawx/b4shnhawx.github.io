@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en-gb"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no"><title>Tag: personal - Cibersec and hacking blog</title><meta name="robots" content="noindex, follow"><meta name="generator" content="Publii Open-Source CMS for Static Site"><link rel="alternate" type="application/atom+xml" href="https://b4shnhawx.github.io/feed.xml"><link rel="alternate" type="application/json" href="https://b4shnhawx.github.io/feed.json"><meta property="og:title" content="personal"><meta property="og:site_name" content="Cibersec and hacking blog"><meta property="og:description" content=""><meta property="og:url" content="https://b4shnhawx.github.io/tags/personal/"><meta property="og:type" content="website"><link rel="stylesheet" href="https://b4shnhawx.github.io/assets/css/fontawesome-all.min.css?v=85514f933f9e0b82460af63f1a403fa5"><link rel="stylesheet" href="https://b4shnhawx.github.io/assets/css/style.css?v=f218613ae41950a4753c5d6d0bffab2c"><script type="application/ld+json">{"@context":"http://schema.org","@type":"Organization","name":"Cibersec and hacking blog","url":"https://b4shnhawx.github.io/","sameAs":["https://x.com/_Myrtivheal","https://www.linkedin.com/in/darribash/","https://www.youtube.com/channel/UCxvS-XzNNYFOq45-ScuLrxA"]}</script><noscript><style>img[loading] {
+<!DOCTYPE html><html lang="en-gb"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no"><title>Tag: personal - Cibersec and hacking blog</title><meta name="robots" content="noindex, follow"><meta name="generator" content="Publii Open-Source CMS for Static Site"><link rel="alternate" type="application/atom+xml" href="https://b4shnhawx.github.io/feed.xml"><link rel="alternate" type="application/json" href="https://b4shnhawx.github.io/feed.json"><meta property="og:title" content="personal"><meta property="og:site_name" content="Cibersec and hacking blog"><meta property="og:description" content=""><meta property="og:url" content="https://b4shnhawx.github.io/tags/personal/"><meta property="og:type" content="website"><link rel="stylesheet" href="https://b4shnhawx.github.io/assets/css/fontawesome-all.min.css?v=85514f933f9e0b82460af63f1a403fa5"><link rel="stylesheet" href="https://b4shnhawx.github.io/assets/css/style.css?v=a37e51c7e9c260b128c8abe9a0454269"><script type="application/ld+json">{"@context":"http://schema.org","@type":"Organization","name":"Cibersec and hacking blog","url":"https://b4shnhawx.github.io/","sameAs":["https://x.com/_Myrtivheal","https://www.linkedin.com/in/darribash/","https://www.youtube.com/channel/UCxvS-XzNNYFOq45-ScuLrxA"]}</script><noscript><style>img[loading] {
                     opacity: 1;
                 }</style></noscript></head><body class="is-preload tag-template"><script>document.addEventListener("DOMContentLoaded", function() {
     // Selecciona el contenedor donde quieres insertar el HTML
@@ -6,9 +6,35 @@
 
     // Crea el contenedor principal que contendrá el logo y el texto
     var mainContainer = document.createElement('div');
-    mainContainer.style.display = "flex";  // Alinea los elementos horizontalmente
-    mainContainer.style.gap = "10px";  // Espacio entre los contenedores (opcional)
-    mainContainer.style.marginBottom = "20px";  // Espacio debajo del contenedor principal
+    mainContainer.style.position = "absolute";  // Posición absoluta para que el contenedor se ajuste correctamente
+    mainContainer.style.top = "0";  // Alinea el contenedor al borde superior del sidebar
+    mainContainer.style.left = "0";  // Alinea el contenedor al borde izquierdo del sidebar
+    mainContainer.style.width = "100%";  // Asegura que el contenedor ocupe todo el ancho del sidebar
+    mainContainer.style.height = "150px";  // Define la altura del contenedor
+    mainContainer.style.zIndex = "2";  // Asegura que el contenedor esté por encima de otros elementos
+    mainContainer.style.overflow = "hidden";  // Evita que el contenido desborde
+
+    // Crea el fondo difuminado
+    var backgroundContainer = document.createElement('div');
+    backgroundContainer.style.position = "absolute";
+    backgroundContainer.style.top = "0";
+    backgroundContainer.style.left = "0";
+    backgroundContainer.style.width = "100%";
+    backgroundContainer.style.height = "100%";
+    backgroundContainer.style.backgroundImage = "url('https://github.com/b4shnhawx/b4shnhawx.github.io/raw/main/media/files/header_bg.jpg')";
+    backgroundContainer.style.backgroundSize = "cover";  // Asegura que la imagen cubra todo el contenedor
+    backgroundContainer.style.backgroundPosition = "center";  // Centra la imagen
+    backgroundContainer.style.filter = "blur(2.5px)";  // Aplica un efecto de difuminado más ligero
+    backgroundContainer.style.zIndex = "1";  // Coloca el fondo detrás del contenido
+
+    // Crea el contenedor para el logo y el texto
+    var contentContainer = document.createElement('div');
+    contentContainer.style.display = "flex";  // Alinea los elementos horizontalmente
+    contentContainer.style.gap = "10px";  // Espacio entre los contenedores
+    contentContainer.style.width = "100%";  // Asegura que el contenedor ocupe el 100% del ancho disponible
+    contentContainer.style.height = "100%";  // Asegura que el contenedor ocupe el 100% de la altura disponible
+    contentContainer.style.zIndex = "2";  // Coloca el contenido por encima del fondo
+    contentContainer.style.position = "relative";  // Asegura que el contenido esté correctamente posicionado
 
     // Crea el contenedor del logo
     var logoContainer = document.createElement('div');
@@ -42,16 +68,30 @@
     textElement.textContent = "#HOLA MUNDO";
     textElement.style.fontSize = "20px";  // Aumenta el tamaño del texto
     textElement.style.textAlign = "left";  // Justifica el texto a la izquierda
+    textElement.style.color = "#fff";  // Color blanco para que el texto sea visible
 
     // Añade el texto al contenedor del texto
     textContainer.appendChild(textElement);
 
-    // Añade el contenedor del logo y el contenedor del texto al contenedor principal
-    mainContainer.appendChild(logoContainer);
-    mainContainer.appendChild(textContainer);
+    // Añade el contenedor del logo y el contenedor del texto al contenedor de contenido
+    contentContainer.appendChild(logoContainer);
+    contentContainer.appendChild(textContainer);
+
+    // Añade el fondo difuminado al contenedor principal
+    mainContainer.appendChild(backgroundContainer);
+
+    // Añade el contenedor del contenido al contenedor principal
+    mainContainer.appendChild(contentContainer);
 
     // Inserta el contenedor principal al inicio del contenedor de la barra lateral
     sidebarInner.insertBefore(mainContainer, sidebarInner.firstChild);
+
+    // Crea un espaciador para evitar que el contenido de la sidebar se superponga
+    var spacer = document.createElement('div');
+    spacer.style.height = "100px";  // La misma altura que el contenedor principal
+
+    // Inserta el espaciador después del contenedor principal
+    sidebarInner.insertBefore(spacer, mainContainer.nextSibling);
 });</script><script>document.addEventListener("DOMContentLoaded", function() {
     // Selecciona el contenedor de la barra lateral y el footer
     var sidebarInner = document.querySelector('#sidebar .inner');
