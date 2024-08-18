@@ -119,4 +119,35 @@
 
     // Inserta el contenedor antes del footer
     sidebarInner.insertBefore(searchContainer, footer);
-});</script><div id="wrapper"><div id="main"><div class="inner"><header id="header"><a class="logo" href="https://b4shnhawx.github.io/"><strong>Cibersec and hacking blog</strong></a><ul class="icons"><li><a href="https://x.com/_Myrtivheal" class="icon brands fa-x-twitter"><span class="label">Twitter</span></a></li><li><a href="https://www.linkedin.com/in/darribash/" class="icon brands fa-linkedin"><span class="label">LinkedIn</span></a></li><li><a href="https://www.youtube.com/channel/UCxvS-XzNNYFOq45-ScuLrxA" class="icon brands fa-youtube"><span class="label">YouTube</span></a></li></ul></header><article class="post"><header class="main post__header"><h1>Search</h1></header><div class="post__inner"></div></article></div></div><div id="sidebar"><div class="inner"><div id="search" class="alt"></div><nav id="menu"><header class="major"><h2>Menu</h2></header><ul><li><a href="https://b4shnhawx.github.io/" target="_self">HOME</a></li><li><a href="https://b4shnhawx.github.io/authors/b4shnhawx/" target="_self">ABOUT ME</a></li><li class="has-submenu"><a href="https://b4shnhawx.github.io/tags/" target="_self" aria-haspopup="true" class="opener">CATEGORIES</a><ul class="submenu level-2" aria-hidden="true"><li><a href="https://b4shnhawx.github.io/tags/raspberrypi/" target="_self">RASPBERRY PI</a></li></ul></li><li><a href="https://b4shnhawx.github.io/tags/" target="_self">PROJECTS</a></li></ul></nav><section><header class="major"><h2>Get in touch</h2></header><p>You can find me at:</p><ul><li><a href="https://www.linkedin.com/in/darribash/">https://www.linkedin.com/in/darribash/</a></li><li> </li></ul></section><footer id="footer"><p class="copyright">© b4shnhawx 2024 - All rights reserved</p></footer></div></div></div><script src="https://b4shnhawx.github.io/assets/js/jquery.min.js?v=7c14a783dfeb3d238ccd3edd840d82ee"></script><script src="https://b4shnhawx.github.io/assets/js/browser.min.js?v=c07298dd19048a8a69ad97e754dfe8d0"></script><script src="https://b4shnhawx.github.io/assets/js/breakpoints.min.js?v=81a479eb099e3b187613943b085923b8"></script><script src="https://b4shnhawx.github.io/assets/js/util.min.js?v=cbdaf7c20ac2883c77ae23acfbabd47e"></script><script src="https://b4shnhawx.github.io/assets/js/main.min.js?v=08add7f6d435054ad38ec38d7cf8be40"></script><script>var images=document.querySelectorAll("img[loading]");for(var i=0;i<images.length;i++){if(images[i].complete){images[i].classList.add("is-loaded")}else{images[i].addEventListener("load",function(){this.classList.add("is-loaded")},false)}};</script></body></html>
+});</script><div id="wrapper"><div id="main"><div class="inner"><header id="header"><a class="logo" href="https://b4shnhawx.github.io/"><strong>Cibersec and hacking blog</strong></a><ul class="icons"><li><a href="https://x.com/_Myrtivheal" class="icon brands fa-x-twitter"><span class="label">Twitter</span></a></li><li><a href="https://www.linkedin.com/in/darribash/" class="icon brands fa-linkedin"><span class="label">LinkedIn</span></a></li><li><a href="https://www.youtube.com/channel/UCxvS-XzNNYFOq45-ScuLrxA" class="icon brands fa-youtube"><span class="label">YouTube</span></a></li></ul></header><article class="post"><header class="main post__header"><h1>Search</h1></header><div class="post__inner"><form action="https://b4shnhawx.github.io/search.html" class="search-page-form"><input type="search" name="q" placeholder="search..." class="search-page-input" required> <button type="submit" class="search-page-button"><span>Submit</span></button></form><div id="search-results"></div><script>(async function () {
+				console.log("./feed.json");
+				console.log("q");
+			  
+				let url = "./feed.json";
+				let response = await fetch(url);
+				let jsonData = await response.json();
+			  
+				const params = new URLSearchParams(window.location.search)
+				let searchTerm = params.get("q");
+				let results = [];
+			  
+				jsonData.items.forEach((item) => {
+				  let title = item.title.toLowerCase();
+				  let summary = item.summary.toLowerCase();
+				  let url = item.url;
+			  
+				  if (title.includes(searchTerm.toLowerCase()) || summary.includes(searchTerm.toLowerCase())) {
+					results.push(item);
+				  }
+				});
+			  
+				let elm = document.querySelector("#search-results");
+				if (results.length > 0) {
+				  results.forEach((result)=>{
+					console.log(result);
+					elm.innerHTML += '<h5><a href="'+ result.url +'">' + result.title + '</a></h5><p>' + result.summary + '</p>'
+				  });
+				} else {
+				  elm.innerHTML = '<p>No Results Found</p>';
+				}
+			  })();</script></div></article></div></div><div id="sidebar"><div class="inner"><div id="search" class="alt"><form action="https://b4shnhawx.github.io/search.html" class="search__form"><input class="search__input" type="search" name="q" placeholder="search..." aria-label="search..." autofocus required> <button type="submit" class="search__button"><span>Submit</span></button></form></div><nav id="menu"><header class="major"><h2>Menu</h2></header><ul><li><a href="https://b4shnhawx.github.io/" target="_self">HOME</a></li><li><a href="https://b4shnhawx.github.io/authors/b4shnhawx/" target="_self">ABOUT ME</a></li><li class="has-submenu"><a href="https://b4shnhawx.github.io/tags/" target="_self" aria-haspopup="true" class="opener">CATEGORIES</a><ul class="submenu level-2" aria-hidden="true"><li><a href="https://b4shnhawx.github.io/tags/raspberrypi/" target="_self">RASPBERRY PI</a></li></ul></li><li><a href="https://b4shnhawx.github.io/tags/" target="_self">PROJECTS</a></li></ul></nav><section><header class="major"><h2>Get in touch</h2></header><p>You can find me at:</p><ul><li><a href="https://www.linkedin.com/in/darribash/">https://www.linkedin.com/in/darribash/</a></li><li> </li></ul></section><footer id="footer"><p class="copyright">© b4shnhawx 2024 - All rights reserved</p></footer></div></div></div><script src="https://b4shnhawx.github.io/assets/js/jquery.min.js?v=7c14a783dfeb3d238ccd3edd840d82ee"></script><script src="https://b4shnhawx.github.io/assets/js/browser.min.js?v=c07298dd19048a8a69ad97e754dfe8d0"></script><script src="https://b4shnhawx.github.io/assets/js/breakpoints.min.js?v=81a479eb099e3b187613943b085923b8"></script><script src="https://b4shnhawx.github.io/assets/js/util.min.js?v=cbdaf7c20ac2883c77ae23acfbabd47e"></script><script src="https://b4shnhawx.github.io/assets/js/main.min.js?v=08add7f6d435054ad38ec38d7cf8be40"></script><script>var images=document.querySelectorAll("img[loading]");for(var i=0;i<images.length;i++){if(images[i].complete){images[i].classList.add("is-loaded")}else{images[i].addEventListener("load",function(){this.classList.add("is-loaded")},false)}};</script></body></html>
