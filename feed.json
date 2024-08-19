@@ -10,6 +10,21 @@
     },
     "items": [
         {
+            "id": "https://b4shnhawx.github.io/dfir4win-automates-the-artifacts-extraction.html",
+            "url": "https://b4shnhawx.github.io/dfir4win-automates-the-artifacts-extraction.html",
+            "title": "DFIR4win - Automates the artifacts extraction",
+            "summary": "Manually extracting artefacts from an infected computer can sometimes be tedious with so much information to search for, documents and logs. That's why the less time it takes to extract the&hellip;",
+            "content_html": "<p>Manually extracting artefacts from an infected computer can sometimes be tedious with so much information to search for, documents and logs. That's why the less time it takes to extract the most relevant information, the longer we can spend looking for any clues or evidence.<br><br>With this idea in mind I found in Github a script that looked very good from the user <a href=\"https://github.com/AlrikRr\">AlrikRr</a> (I invite you to take a look at his cool projects), specifically I'm talking about <a href=\"https://github.com/AlrikRr/Forensic-Extract\">Forensic-Extract</a>.</p>\n<p>Looking at his project I thought <em>\"OK, it extracts very useful information and records, but... what if I add the option to extract hives?\"</em>, so I took advantage of it and made a few more changes:</p>\n<ul>\n<li>Translated the code into English</li>\n<li>Optimised the code as much as I could</li>\n<li>Added the option to extract hives</li>\n<li>Added a Microsoft Defender status checker</li>\n</ul>\n<p> </p>\n<p><code>https://github.com/b4shnhawx/DFIR4win/tree/main/img</code></p>",
+            "image": "https://b4shnhawx.github.io/media/posts/5/dfir4win.png",
+            "author": {
+                "name": "b4shnhawx"
+            },
+            "tags": [
+            ],
+            "date_published": "2024-08-19T19:28:44+02:00",
+            "date_modified": "2024-08-19T21:26:31+02:00"
+        },
+        {
             "id": "https://b4shnhawx.github.io/first-post.html",
             "url": "https://b4shnhawx.github.io/first-post.html",
             "title": "Welcome to my blog - First post!",

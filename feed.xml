@@ -3,12 +3,44 @@
     <title>Cibersec and hacking blog</title>
     <link href="https://b4shnhawx.github.io/feed.xml" rel="self" />
     <link href="https://b4shnhawx.github.io" />
-    <updated>2024-08-18T15:31:24+02:00</updated>
+    <updated>2024-08-19T21:26:31+02:00</updated>
     <author>
         <name>b4shnhawx</name>
     </author>
     <id>https://b4shnhawx.github.io</id>
 
+    <entry>
+        <title>DFIR4win - Automates the artifacts extraction</title>
+        <author>
+            <name>b4shnhawx</name>
+        </author>
+        <link href="https://b4shnhawx.github.io/dfir4win-automates-the-artifacts-extraction.html"/>
+        <id>https://b4shnhawx.github.io/dfir4win-automates-the-artifacts-extraction.html</id>
+        <media:content url="https://b4shnhawx.github.io/media/posts/5/dfir4win.png" medium="image" />
+
+        <updated>2024-08-19T19:28:44+02:00</updated>
+            <summary>
+                <![CDATA[
+                        <img src="https://b4shnhawx.github.io/media/posts/5/dfir4win.png" alt="" />
+                    Manually extracting artefacts from an infected computer can sometimes be tedious with so much information to search for, documents and logs. That's why the less time it takes to extract the&hellip;
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                    <p><img src="https://b4shnhawx.github.io/media/posts/5/dfir4win.png" class="type:primaryImage" alt="" /></p>
+                <p>Manually extracting artefacts from an infected computer can sometimes be tedious with so much information to search for, documents and logs. That's why the less time it takes to extract the most relevant information, the longer we can spend looking for any clues or evidence.<br><br>With this idea in mind I found in Github a script that looked very good from the user <a href="https://github.com/AlrikRr">AlrikRr</a> (I invite you to take a look at his cool projects), specifically I'm talking about <a href="https://github.com/AlrikRr/Forensic-Extract">Forensic-Extract</a>.</p>
+<p>Looking at his project I thought <em>"OK, it extracts very useful information and records, but... what if I add the option to extract hives?"</em>, so I took advantage of it and made a few more changes:</p>
+<ul>
+<li>Translated the code into English</li>
+<li>Optimised the code as much as I could</li>
+<li>Added the option to extract hives</li>
+<li>Added a Microsoft Defender status checker</li>
+</ul>
+<p> </p>
+<p><code>https://github.com/b4shnhawx/DFIR4win/tree/main/img</code></p>
+            ]]>
+        </content>
+    </entry>
     <entry>
         <title>Welcome to my blog - First post!</title>
         <author>
