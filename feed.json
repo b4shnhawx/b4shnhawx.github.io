@@ -13,7 +13,7 @@
             "id": "https://b4shnhawx.github.io/dfir4win-automates-the-artifacts-extraction.html",
             "url": "https://b4shnhawx.github.io/dfir4win-automates-the-artifacts-extraction.html",
             "title": "DFIR4win - Automates the artifacts extraction",
-            "summary": "Manually extracting artefacts from an infected computer can sometimes be tedious with so much information to search for, documents and logs. That's why the less time it takes to extract the&hellip;",
+            "summary": "Manually extracting artefacts from an infected computer can sometimes be tedious with so much information to search for, documents and logs. That's why the less time it&hellip;",
             "content_html": "<p>Manually extracting artefacts from an infected computer can sometimes be tedious with so much information to search for, documents and logs. That's why the less time it takes to extract the most relevant information, the longer we can spend looking for any clues or evidence.<br><br>With this idea in mind I found in Github a script that looked very good from the user <a href=\"https://github.com/AlrikRr\">AlrikRr</a> (I invite you to take a look at his cool projects), specifically I'm talking about <a href=\"https://github.com/AlrikRr/Forensic-Extract\">Forensic-Extract</a>.</p>\n<p>Looking at his project I thought <em>\"OK, it extracts very useful information and records, but... what if I add the option to extract hives?\"</em>, so I took advantage of it and made a few more changes:</p>\n<ul>\n<li>Translated the code into English</li>\n<li>Optimised the code as much as I could</li>\n<li>Added the option to extract hives</li>\n<li>Added a Microsoft Defender status checker</li>\n</ul>\n<p> </p>\n<p><code>https://github.com/b4shnhawx/DFIR4win/tree/main/img</code></p>",
             "image": "https://b4shnhawx.github.io/media/posts/5/dfir4win.png",
             "author": {
@@ -28,7 +28,7 @@
             "id": "https://b4shnhawx.github.io/first-post.html",
             "url": "https://b4shnhawx.github.io/first-post.html",
             "title": "Welcome to my blog - First post!",
-            "summary": "Hello to all of you! For a long time I wanted to start a project where I could share some of my projects, achievements, experiences or ideas in the cybersecurity world,&hellip;",
+            "summary": "Hello to all of you! For a long time I wanted to start a project where I could share some of my projects, achievements, experiences or ideas&hellip;",
             "content_html": "<p>Hello to all of you!<br><br>For a long time I wanted to start a project where I could share some of my projects, achievements, experiences or ideas in the cybersecurity world, so, what better way than with a blog?<br><br>In this blog I will try to upload content from different areas of cybersecurity, some more complex, others not so much ... you will see.<br><br>A summary of some of the things I want to upload:<br>- Networking<br>- Raspberry Pi<br>- Programming in python, PowerShell and of course, my beloved bash.<br>- Flipper Zero<br>- Although it is not my expertise, some ethical hacking.<br><br>That's all, see you around!</p>",
             "image": "https://b4shnhawx.github.io/media/posts/4/j2hkcly5xc781.png",
             "author": {
