@@ -3,7 +3,7 @@
     <title>Cibersec and hacking blog</title>
     <link href="https://b4shnhawx.github.io/feed.xml" rel="self" />
     <link href="https://b4shnhawx.github.io" />
-    <updated>2024-08-20T23:31:12+02:00</updated>
+    <updated>2024-08-21T00:07:44+02:00</updated>
     <author>
         <name>b4shnhawx</name>
     </author>
@@ -57,7 +57,7 @@
 <p><br>This script detects whether your active AV is Windows Defender or some other third-party antivirus. If it is the latter, it is possible that other modules of your AV are blocking the extraction of the files, so I recommend you to manually check if all the files you need have been extracted correctly.</p>
 <p><br>If the script is not working properly to extract the files, you can do it manually with a program (such as Eric Zimmerman's Registry Explorer).</p>
 <p> </p>
-<p>This would be the final directory tree:</p>
+<p>This would be the final directory tree:<br><br></p>
 <pre class="language-bash"><code>./HOST_DD-MM-YYYY.zip
  |
  |-- REGS
@@ -75,6 +75,7 @@
  |-- Host-Info_HOST_DD-MM-YYYY.txt</code></pre>
 <p> </p>
 <p>You have all the information about how the script works in the repository 😁</p>
+<p> </p>
             ]]>
         </content>
     </entry>
