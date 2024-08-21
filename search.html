@@ -123,6 +123,23 @@
         // Inserta el encabezado justo antes del cuadro de búsqueda
         sidebarInner.insertBefore(searchHeader, searchDiv);
     }
+});</script><script>document.addEventListener("DOMContentLoaded", function() {
+    // Selecciona el primer elemento con la clase "post__tag"
+    var firstTagElement = document.querySelector("div.post__tag");
+
+    // Comprueba si el elemento existe
+    if (firstTagElement) {
+        // Crea un nuevo div con la clase "post__tag"
+        var warningBox = document.createElement("div");
+        warningBox.className = "post__tag";
+        warningBox.style.fontSize = "small"; // Haz el texto más pequeño
+
+        // Añade el contenido del texto con un salto de línea al principio y al final
+        warningBox.innerHTML = "All content published in this post is for educational purposes only and has been tested in controlled and managed environments by me.";
+
+        // Inserta el nuevo div justo después del primer div.post__tag
+        firstTagElement.insertAdjacentElement('afterend', warningBox);
+    }
 });</script><div id="wrapper"><div id="main"><div class="inner"><header id="header"><a class="logo" href="https://b4shnhawx.github.io/"><strong>Cibersec and hacking blog</strong></a><ul class="icons"><li><a href="https://x.com/_Myrtivheal" class="icon brands fa-x-twitter"><span class="label">Twitter</span></a></li><li><a href="https://www.linkedin.com/in/darribash/" class="icon brands fa-linkedin"><span class="label">LinkedIn</span></a></li><li><a href="https://www.youtube.com/channel/UCxvS-XzNNYFOq45-ScuLrxA" class="icon brands fa-youtube"><span class="label">YouTube</span></a></li></ul></header><article class="post"><header class="main post__header"><h1>Search</h1></header><div class="post__inner"><form action="https://b4shnhawx.github.io/search.html" class="search-page-form"><input type="search" name="q" placeholder="search..." class="search-page-input" required> <button type="submit" class="search-page-button"><span>Submit</span></button></form><div id="search-results"></div><script>(async function () {
 				console.log("./feed.json");
 				console.log("q");
