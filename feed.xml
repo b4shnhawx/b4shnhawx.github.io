@@ -3,12 +3,87 @@
     <title>Cibersec and hacking blog</title>
     <link href="https://b4shnhawx.github.io/feed.xml" rel="self" />
     <link href="https://b4shnhawx.github.io" />
-    <updated>2024-08-21T00:07:44+02:00</updated>
+    <updated>2024-08-21T13:28:29+02:00</updated>
     <author>
         <name>b4shnhawx</name>
     </author>
     <id>https://b4shnhawx.github.io</id>
 
+    <entry>
+        <title>SSH TelegramBot in Python</title>
+        <author>
+            <name>b4shnhawx</name>
+        </author>
+        <link href="https://b4shnhawx.github.io/ssh-telegrambot-in-python.html"/>
+        <id>https://b4shnhawx.github.io/ssh-telegrambot-in-python.html</id>
+            <category term="raspberrypi"/>
+            <category term="python"/>
+            <category term="programming"/>
+            <category term="networking"/>
+
+        <updated>2024-08-21T00:34:28+02:00</updated>
+            <summary>
+                <![CDATA[
+                    Today I bring you a project that I finished some time ago, but that has earned a place in my favourite projects: a bot for Telegram. Ok,&hellip;
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                <p>Today I bring you a project that I finished some time ago, but that has earned a place in my favourite projects: a bot for Telegram.<br><br>Ok, but what is the difference between this bot and any other ‘hello_world_telgrambot.py’ bot on the internet? Basically, this one is capable of interpreting commands on the machine that is running it (Linux) 💣<br><br>Before we throw our hands up in the air ‘Oh no, it's open to the internet and anyone can access it! Yes, that's true, and I know it, but that's why I've added a security measure that's as simple as it is reliable.<br><br>Each Telegram user has a unique ID, so let's use it to our advantage.</p>
+<blockquote>
+<p>Raspberry Pi, in every message sent to the Telegram bot, compare the ID of the sender with the ones I have put in your whitelist. If the ID doesn't match, it's NOT me, so don't pay attention to it. </p>
+</blockquote>
+<p><br>Although I have tried to make it plug-and-play, reducing a lot the necessary configuration to be able to replicate it to your liking, I want to mention several things here even though everything is explained in the comments in the code itself and its repository.<br><br></p>
+<h5>UNDERSTANDING THE SCRIPT</h5>
+<hr>
+<p>First of all, please note that the following dependencies must be installed:</p>
+<pre class="language-python"><code>pip3 install telebot
+pip3 install python-telegram-bot</code></pre>
+<p>I have divided the code into three parts. Mandatory, Optional and Main.</p>
+<ul>
+<li><strong>Mandatory</strong>: As the name indicates, this part of the code is the minimum for the SSH bot to work.<br><br>In this section you only need to change the token of your bot, and the chat IDs you want to allow. You can put as many IDs as you want separated by commas in case you want multiple users to have access to the same machine.<br>
+<pre class="language-python"><code>........
+
+### -----------------------------------------------
+### --------- MANDATORY CODE FOR SSH BOT ----------
+### -----------------------------------------------
+
+### --- VARIABLES ---
+
+........
+
+token = "xxxxxxxxx:ABCDEFabcdef..."
+permit_chat_id = (CHAT_ID_1, CHAT_ID_2, CHAT_ID_3...)
+
+........</code></pre>
+</li>
+<li><strong>Optional</strong>: Here you can add or modify the existing options and functions as you wish. In my case, the options that I have added are <em>ping_pc</em>, <em>public_ip</em>,<em> magic_packet_pc</em>,<em> suspend_pc MINUTOS</em>,<em> logoff_pc</em>,<em> shut_down_pc</em>,<em> cmd bash command</em>.<br><br>In this section is where you should put the variables for your optional functions. In case you don't want any other optional functions, you can delete all the content up to the MAIN section.<br>
+<pre class="language-python"><code>........
+
+### ------------------------------------------------
+### -------- OPTIONAL FUNCTIONS FOR THE BOT --------
+### ------------------------------------------------
+
+### --- VARIABLES ---
+
+mac_magic_packet = "MAC_ADDRESS"
+ip_pc = "IP_ADDRESS"
+user = "USER"
+password = "PASSWORD"
+
+........</code></pre>
+<p>To add new functions, at the end of the optional functions I have left an example / template (called EXAMPLE COMMAND) to add other commands with arguments.<br><br>Don't forget that if you add new optional functions, you should add them in the MANDATORY section in the /start and /test commands so that they appear as help.<br><br></p>
+</li>
+<li><strong>Main</strong>: It is the part that runs the bot, so it should not be changed.</li>
+</ul>
+<h5>USE CASE EXAMPLES</h5>
+<hr>
+<p>To enable and disable SSH mode, simply send the command /terminal. At this point, the bot will indicate the status of the terminal and if it is active, anything we send will be interpreted as a command and the output will be sent to us.<br>(Note that it has its limitations, so don't expect to do a ‘man ssh’ to work xD)</p>
+<figure class="align-center"><img loading="lazy"  style="max-width: 50%;" src="https://github.com/b4shnhawx/ssh-telegram-bot/raw/main/images/command.jpg" alt="Command example" width="300" height="650" data-is-external-image="true"></figure>
+<p> </p>
+            ]]>
+        </content>
+    </entry>
     <entry>
         <title>DFIR4win - Automates the artifacts extraction</title>
         <author>
