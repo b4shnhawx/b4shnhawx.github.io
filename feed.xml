@@ -3,7 +3,7 @@
     <title>Cibersec and hacking blog</title>
     <link href="https://b4shnhawx.github.io/feed.xml" rel="self" />
     <link href="https://b4shnhawx.github.io" />
-    <updated>2024-08-21T13:28:29+02:00</updated>
+    <updated>2024-08-21T16:02:58+02:00</updated>
     <author>
         <name>b4shnhawx</name>
     </author>
@@ -16,6 +16,7 @@
         </author>
         <link href="https://b4shnhawx.github.io/ssh-telegrambot-in-python.html"/>
         <id>https://b4shnhawx.github.io/ssh-telegrambot-in-python.html</id>
+        <media:content url="https://b4shnhawx.github.io/media/posts/6/command.jpg" medium="image" />
             <category term="raspberrypi"/>
             <category term="python"/>
             <category term="programming"/>
@@ -24,18 +25,21 @@
         <updated>2024-08-21T00:34:28+02:00</updated>
             <summary>
                 <![CDATA[
+                        <img src="https://b4shnhawx.github.io/media/posts/6/command.jpg" alt="" />
                     Today I bring you a project that I finished some time ago, but that has earned a place in my favourite projects: a bot for Telegram. Ok,&hellip;
                 ]]>
             </summary>
         <content type="html">
             <![CDATA[
+                    <p><img src="https://b4shnhawx.github.io/media/posts/6/command.jpg" class="type:primaryImage" alt="" /></p>
                 <p>Today I bring you a project that I finished some time ago, but that has earned a place in my favourite projects: a bot for Telegram.<br><br>Ok, but what is the difference between this bot and any other ‘hello_world_telgrambot.py’ bot on the internet? Basically, this one is capable of interpreting commands on the machine that is running it (Linux) 💣<br><br>Before we throw our hands up in the air ‘Oh no, it's open to the internet and anyone can access it! Yes, that's true, and I know it, but that's why I've added a security measure that's as simple as it is reliable.<br><br>Each Telegram user has a unique ID, so let's use it to our advantage.</p>
 <blockquote>
 <p>Raspberry Pi, in every message sent to the Telegram bot, compare the ID of the sender with the ones I have put in your whitelist. If the ID doesn't match, it's NOT me, so don't pay attention to it. </p>
 </blockquote>
 <p><br>Although I have tried to make it plug-and-play, reducing a lot the necessary configuration to be able to replicate it to your liking, I want to mention several things here even though everything is explained in the comments in the code itself and its repository.<br><br></p>
-<h5>UNDERSTANDING THE SCRIPT</h5>
-<hr>
+<div class="tittle__line">
+<h3>UNDERSTANDING THE SCRIPT</h3>
+<hr class="line">
 <p>First of all, please note that the following dependencies must be installed:</p>
 <pre class="language-python"><code>pip3 install telebot
 pip3 install python-telegram-bot</code></pre>
@@ -76,11 +80,26 @@ password = "PASSWORD"
 </li>
 <li><strong>Main</strong>: It is the part that runs the bot, so it should not be changed.</li>
 </ul>
-<h5>USE CASE EXAMPLES</h5>
-<hr>
-<p>To enable and disable SSH mode, simply send the command /terminal. At this point, the bot will indicate the status of the terminal and if it is active, anything we send will be interpreted as a command and the output will be sent to us.<br>(Note that it has its limitations, so don't expect to do a ‘man ssh’ to work xD)</p>
-<figure class="align-center"><img loading="lazy"  style="max-width: 50%;" src="https://github.com/b4shnhawx/ssh-telegram-bot/raw/main/images/command.jpg" alt="Command example" width="300" height="650" data-is-external-image="true"></figure>
+<div class="tittle__line">
+<h3><strong>USE CASE EXAMPLES</strong></h3>
+<hr class="line">
 <p> </p>
+<p>To enable and disable SSH mode, simply send the command /terminal. At this point, the bot will indicate the status of the terminal and if it is active, anything we send will be interpreted as a command and the output will be sent to us.<br>(Note that it has its limitations, so don't expect to do a ‘man ssh’ to work xD)</p>
+<p> </p>
+<div style="text-align: center;"><img loading="lazy" style="width: 50%; height: auto;" src="https://github.com/b4shnhawx/ssh-telegram-bot/raw/main/images/command.jpg" alt="Command example" data-is-external-image="true"></div>
+<div> </div>
+<div>Also if the script belongs to root you can get the permissions inherited and execute commands with root.<br><br><br>An example of an intrusion attempt would be this:</div>
+<ol>
+<li>A user without permissions (left screenshot) starts the bot and tries to send the /terminal command to enable SSH (yellow). He also sends several commands to validate if he has access to the machine (green and blue), but the bot has not allowed terminal mode to be enabled.</li>
+<li>To the users in the whitelist it sends a message with the information (middle screenshot), warning that a user has started the bot (red).</li>
+<li>When the anonymous user sends the command /terminal (right screenshot), it will send us a message indicating that it has tried to execute a command (yellow), as well as resending us the command attempts (green and blue).</li>
+</ol>
+<div style="text-align: center;"><img loading="lazy" style="width: 100%; height: auto;" src="https://github.com/b4shnhawx/ssh-telegram-bot/raw/main/images/img_intrusion.jpg" alt="Command example" data-is-external-image="true"></div>
+<div> </div>
+<div> </div>
+<div> </div>
+</div>
+</div>
             ]]>
         </content>
     </entry>
