@@ -3,7 +3,7 @@
     <title>Cibersec and hacking blog</title>
     <link href="https://b4shnhawx.github.io/feed.xml" rel="self" />
     <link href="https://b4shnhawx.github.io" />
-    <updated>2024-08-21T16:02:58+02:00</updated>
+    <updated>2024-08-21T16:04:48+02:00</updated>
     <author>
         <name>b4shnhawx</name>
     </author>
@@ -32,7 +32,7 @@
         <content type="html">
             <![CDATA[
                     <p><img src="https://b4shnhawx.github.io/media/posts/6/command.jpg" class="type:primaryImage" alt="" /></p>
-                <p>Today I bring you a project that I finished some time ago, but that has earned a place in my favourite projects: a bot for Telegram.<br><br>Ok, but what is the difference between this bot and any other ‘hello_world_telgrambot.py’ bot on the internet? Basically, this one is capable of interpreting commands on the machine that is running it (Linux) 💣<br><br>Before we throw our hands up in the air ‘Oh no, it's open to the internet and anyone can access it! Yes, that's true, and I know it, but that's why I've added a security measure that's as simple as it is reliable.<br><br>Each Telegram user has a unique ID, so let's use it to our advantage.</p>
+                <p>Today I bring you a project that I finished some time ago, but that has earned a place in my favourite projects: a bot for Telegram.<br><br>Ok, but what is the difference between this bot and any other ‘hello_world_telgrambot.py’ bot on the internet? Basically, this one is capable of interpreting commands on the machine that is running it (Linux) 💣<br><br>Before we throw our hands up in the air ‘Oh no, it's open to the internet and anyone can access it! Yes, that's true, and I know it, but that's why I've added a security measure that's as simple as it is reliable.<br><br>Each Telegram user has a unique ID, so let's use it to our advantage.<br><br></p>
 <blockquote>
 <p>Raspberry Pi, in every message sent to the Telegram bot, compare the ID of the sender with the ones I have put in your whitelist. If the ID doesn't match, it's NOT me, so don't pay attention to it. </p>
 </blockquote>
@@ -45,7 +45,7 @@
 pip3 install python-telegram-bot</code></pre>
 <p>I have divided the code into three parts. Mandatory, Optional and Main.</p>
 <ul>
-<li><strong>Mandatory</strong>: As the name indicates, this part of the code is the minimum for the SSH bot to work.<br><br>In this section you only need to change the token of your bot, and the chat IDs you want to allow. You can put as many IDs as you want separated by commas in case you want multiple users to have access to the same machine.<br>
+<li><strong>Mandatory</strong>: As the name indicates, this part of the code is the minimum for the SSH bot to work.<br><br>In this section you only need to change the token of your bot, and the chat IDs you want to allow. You can put as many IDs as you want separated by commas in case you want multiple users to have access to the same machine.<br><br>
 <pre class="language-python"><code>........
 
 ### -----------------------------------------------
@@ -61,7 +61,7 @@ permit_chat_id = (CHAT_ID_1, CHAT_ID_2, CHAT_ID_3...)
 
 ........</code></pre>
 </li>
-<li><strong>Optional</strong>: Here you can add or modify the existing options and functions as you wish. In my case, the options that I have added are <em>ping_pc</em>, <em>public_ip</em>,<em> magic_packet_pc</em>,<em> suspend_pc MINUTOS</em>,<em> logoff_pc</em>,<em> shut_down_pc</em>,<em> cmd bash command</em>.<br><br>In this section is where you should put the variables for your optional functions. In case you don't want any other optional functions, you can delete all the content up to the MAIN section.<br>
+<li><strong>Optional</strong>: Here you can add or modify the existing options and functions as you wish. In my case, the options that I have added are <em>ping_pc</em>, <em>public_ip</em>,<em> magic_packet_pc</em>,<em> suspend_pc MINUTOS</em>,<em> logoff_pc</em>,<em> shut_down_pc</em>,<em> cmd bash command</em>.<br><br>In this section is where you should put the variables for your optional functions. In case you don't want any other optional functions, you can delete all the content up to the MAIN section.<br><br>
 <pre class="language-python"><code>........
 
 ### ------------------------------------------------
