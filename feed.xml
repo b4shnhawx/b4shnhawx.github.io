@@ -3,12 +3,63 @@
     <title>Cibersec and hacking blog</title>
     <link href="https://b4shnhawx.github.io/feed.xml" rel="self" />
     <link href="https://b4shnhawx.github.io" />
-    <updated>2024-08-21T18:19:10+02:00</updated>
+    <updated>2024-08-22T20:17:40+02:00</updated>
     <author>
         <name>b4shnhawx</name>
     </author>
     <id>https://b4shnhawx.github.io</id>
 
+    <entry>
+        <title>Auto backup for Termux</title>
+        <author>
+            <name>b4shnhawx</name>
+        </author>
+        <link href="https://b4shnhawx.github.io/auto-backup-for-termux.html"/>
+        <id>https://b4shnhawx.github.io/auto-backup-for-termux.html</id>
+        <media:content url="https://b4shnhawx.github.io/media/posts/8/files.jpg" medium="image" />
+            <category term="termux"/>
+            <category term="programming"/>
+            <category term="os"/>
+            <category term="linux"/>
+            <category term="bash"/>
+
+        <updated>2024-08-21T11:43:00+02:00</updated>
+            <summary>
+                <![CDATA[
+                        <img src="https://b4shnhawx.github.io/media/posts/8/files.jpg" alt="" />
+                    Needless to say, Termux is an incredible tool for any Linux enthusiast. It is an Android terminal emulator, and has nothing to do with a virtualised or&hellip;
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                    <p><img src="https://b4shnhawx.github.io/media/posts/8/files.jpg" class="type:primaryImage" alt="" /></p>
+                <p>Needless to say, <strong>Termux is an incredible tool for any Linux enthusiast</strong>. It is an Android terminal emulator, and has nothing to do with a virtualised or simulated installation. That is, with it we would be interacting directly with our Android device, but of course, with limited and restricted access outside the Termux installation directory and, above all, to the hardware.<br><br>Even so, with Termux we can tinker a lot creating scripts or installing packages as in any other machine.<br><br>The problem comes when you are constantly changing things and trying things out. That's when you realise, you've been installing packages for 2 hours and making so many changes that you don't know what you've done and you think, <em>"why wouldn't I make a backup before to restore termux to a state before I messed up?"</em>.<br><br></p>
+<p>That is why I have created a bash script for this task:<br><br></p>
+<ul dir="auto">
+<li>Creates a backup (home directory included) of Termux.</li>
+<li>Searches for backups older than 7 days and deletes them.</li>
+<li>Sends a notification to the mobile when it finishes (OK or ERROR).</li>
+<li>Creates a .log record of the actions it performs.</li>
+<li>(extra) With Drive sync I synchronize the path of Termux to have everything in Drive.</li>
+</ul>
+<p>You can see the project in my Github: <a href="https://github.com/b4shnhawx/termux-backup/tree/main">b4shnhawx/termux-backup</a><br><br></p>
+<div class="tittle__line">
+<h3><strong>USE CASE</strong></h3>
+<hr class="line">
+<p>The script itself is not very complicated. If you wish, you can format the date, name and path where the backups will be saved in the variables in lines 3 to 6.<br><br></p>
+<div style="text-align: center;"><figure class="post__image"><img loading="lazy"  style="width: auto; height: auto;" src="https://raw.githubusercontent.com/b4shnhawx/termux-backup/main/images/bash-script.jpg" alt="Command example" data-is-external-image="true"></figure></div>
+<div> </div>
+<div>We already have the script. So now we need to set up crontab to run the script every day at X time. To do this:</div>
+<div>
+<pre class="language-bash"><code>crontab -e</code></pre>
+In my case I want the backup to run every day at 5 AM.<br><br>
+<pre class="language-bash"><code>0 5 * * * bash /data/data/com.termux/files/home/scripts/termux_backup.sh</code></pre>
+<p> </p>
+</div>
+</div>
+            ]]>
+        </content>
+    </entry>
     <entry>
         <title>SSH TelegramBot in Python</title>
         <author>
@@ -37,10 +88,11 @@
 <p>Raspberry Pi, in every message sent to the Telegram bot, compare the ID of the sender with the ones I have put in your whitelist. If the ID doesn't match, it's NOT me, so don't pay attention to it. </p>
 </blockquote>
 <p><br>Although I have tried to make it plug-and-play, reducing a lot the necessary configuration to be able to replicate it to your liking, I want to mention several things here even though everything is explained in the comments in the code itself and its repository.<br><br></p>
+<p>You can see the project in my Github: <a href="https://github.com/b4shnhawx/ssh-telegram-bot">b4shnhawx/ssh-telegram-bot</a></p>
 <div class="tittle__line">
-<h3>UNDERSTANDING THE SCRIPT</h3>
+<h3><br>UNDERSTANDING THE SCRIPT</h3>
 <hr class="line">
-<p>First of all, please note that the following dependencies must be installed:</p>
+<p>First of all, please note that the following dependencies must be installed:<br><br></p>
 <pre class="language-python"><code>pip3 install telebot
 pip3 install python-telegram-bot</code></pre>
 <p>I have divided the code into three parts. Mandatory, Optional and Main.</p>
@@ -86,7 +138,7 @@ password = "PASSWORD"
 <p> </p>
 <p>To enable and disable SSH mode, simply send the command /terminal. At this point, the bot will indicate the status of the terminal and if it is active, anything we send will be interpreted as a command and the output will be sent to us.<br>(Note that it has its limitations, so don't expect to do a ‘man ssh’ to work xD)</p>
 <p> </p>
-<div style="text-align: center;"><img loading="lazy" style="width: 50%; height: auto;" src="https://github.com/b4shnhawx/ssh-telegram-bot/raw/main/images/command.jpg" alt="Command example" data-is-external-image="true"></div>
+<div style="text-align: center;"><img loading="lazy" style="width: 50%; height: auto;" src="https://raw.githubusercontent.com/b4shnhawx/ssh-telegram-bot/main/images/command.jpg" alt="Command example" data-is-external-image="true"></div>
 <div> </div>
 <div>Also if the script belongs to root you can get the permissions inherited and execute commands with root.<br><br><br>An example of an intrusion attempt would be this:</div>
 <ol>
@@ -94,7 +146,7 @@ password = "PASSWORD"
 <li>To the users in the whitelist it sends a message with the information (middle screenshot), warning that a user has started the bot (red).</li>
 <li>When the anonymous user sends the command /terminal (right screenshot), it will send us a message indicating that it has tried to execute a command (yellow), as well as resending us the command attempts (green and blue).</li>
 </ol>
-<div style="text-align: center;"><img loading="lazy" style="width: 100%; height: auto;" src="https://github.com/b4shnhawx/ssh-telegram-bot/raw/main/images/img_intrusion.jpg" alt="Command example" data-is-external-image="true"></div>
+<div style="text-align: center;"><img loading="lazy" style="width: 100%; height: auto;" src="https://raw.githubusercontent.com/b4shnhawx/ssh-telegram-bot/main/images/img_intrusion.jpg" alt="Command example" data-is-external-image="true"></div>
 <div> </div>
 <div> </div>
 <div> </div>
