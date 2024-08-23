@@ -3,12 +3,125 @@
     <title>Cibersec and hacking blog</title>
     <link href="https://b4shnhawx.github.io/feed.xml" rel="self" />
     <link href="https://b4shnhawx.github.io" />
-    <updated>2024-08-22T20:17:40+02:00</updated>
+    <updated>2024-08-23T13:20:13+02:00</updated>
     <author>
         <name>b4shnhawx</name>
     </author>
     <id>https://b4shnhawx.github.io</id>
 
+    <entry>
+        <title>Securing Termux with fingerprint</title>
+        <author>
+            <name>b4shnhawx</name>
+        </author>
+        <link href="https://b4shnhawx.github.io/securing-termux-with-fingerprint.html"/>
+        <id>https://b4shnhawx.github.io/securing-termux-with-fingerprint.html</id>
+            <category term="termux"/>
+            <category term="programming"/>
+            <category term="os"/>
+            <category term="linux"/>
+            <category term="bash"/>
+
+        <updated>2024-08-23T12:42:10+02:00</updated>
+            <summary>
+                <![CDATA[
+                    SECURING TERMUX WHEN OPENING A NEW TERMINAL At de beggining of the file .zshrc (.bashrc by default) # Security finger print echo "\n----==== SYSTEM LOCKED ====----\n" termux-fingerprint&hellip;
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                <div class="tittle__line">
+<h3><strong>SECURING TERMUX WHEN OPENING A NEW TERMINAL</strong></h3>
+<hr class="line">
+<p>At de beggining of the file .zshrc (.bashrc by default)</p>
+<p> </p>
+<pre class="language-bash"><code># Security finger print
+echo "\n----==== SYSTEM LOCKED ====----\n"
+termux-fingerprint | grep -q "AUTH_RESULT_SUCCESS" &amp;&amp; {
+    echo -e "\n\e[32m     -= ACCESS GRANTED! =-  \e[0m\n"
+} || {
+    echo -e "\n\e[31m     -= ACCESS DENIED!! =-  \e[0m\n"
+    sleep 1
+    exit 1
+}
+
+.........</code></pre>
+<div class="tittle__line">
+<div class="gallery-wrapper"><div class="gallery"  data-is-empty="false" data-translation="Add images" data-columns="2">
+<figure class="gallery__item"><a href="https://b4shnhawx.github.io/media/posts/15/gallery/Screenshot_2024-08-23-13-01-35-548_com.termux.jpg" data-size="1080x875"><img loading="lazy" src="https://b4shnhawx.github.io/media/posts/15/gallery/Screenshot_2024-08-23-13-01-35-548_com.termux-thumbnail.jpg" alt="Acces denied" width="720" height="583"></a>
+<figcaption>Example of failures when reading the fingerprint</figcaption>
+</figure>
+<figure class="gallery__item"><a href="https://b4shnhawx.github.io/media/posts/15/gallery/Screenshot_2024-08-23-13-02-28-933_com.termux.jpg" data-size="1080x875"><img loading="lazy" src="https://b4shnhawx.github.io/media/posts/15/gallery/Screenshot_2024-08-23-13-02-28-933_com.termux-thumbnail.jpg" alt="Acces granted" width="720" height="583"></a>
+<figcaption>Example of authorised access</figcaption>
+</figure>
+</div></div>
+<h3><strong>SECURING CUSTOMISED ALIASES</strong></h3>
+<hr class="line">
+<p>Also, we can create alias to securize different commands at the end of the .zshrc file.<br><br></p>
+<p>For example:<br><br></p>
+<pre class="language-bash"><code>.........
+
+# MY FUNCTIONS
+check_finger_access() {
+    local command="$1"
+    shift
+
+    termux-fingerprint | grep -q "AUTH_RESULT_SUCCESS" &amp;&amp; {
+        echo -e "\n\e[32m&gt; ACCESS GRANTED &lt;\e[0m\n"
+        command $command "$@"
+    } || {
+        echo -e "\n\e[31m&gt; ACCESS DENIED &lt;\e[0m\n"
+        return 1
+    }
+}
+
+# MY ALIAS COMMANDS
+
+alias nano='check_finger_access nano'
+alias bash='check_finger_access bash'</code></pre>
+<p>When we go to execute the nano or bash commands, Termux will ask us to check the fingerprint.</p>
+<p> </p>
+<div class="tittle__line">
+<h3><strong>SCRIPT TO ENABLE / DISABLE CHECKING ON ALIASES</strong></h3>
+<hr class="line">
+<p>In addition, we can create a script to change whether we want to enable or disable these aliases so that we are only prompted for the fingerprint when opening Termux:<br><br></p>
+<pre class="language-bash"><code>#!/bin/bash
+
+# Archivo donde se aplicarán los cambios
+ZSHRC_FILE="$HOME/.zshrc"
+
+# Patrón a buscar
+PATTERN="='check_finger_access "
+EXCEPTION="switch_finger_check.sh"
+
+# Verificar si ya hay líneas comentadas que coincidan con el patrón
+if grep -q "^#.*$PATTERN" "$ZSHRC_FILE"; then
+    # Descomentar las líneas que contengan el patrón, pero no la excepción
+    sed -i "/^#.*$PATTERN/ {/$EXCEPTION/!s/^#//}" "$ZSHRC_FILE"
+    echo -e "&gt; Security fingerprint \e[32menabled\e[0m"
+    echo -e "&gt; Restart needed to apply changes\n"
+else
+    # Comentar las líneas que contengan el patrón, pero no la excepción
+    sed -i "/$PATTERN/ {/$EXCEPTION/!s/^/#/}" "$ZSHRC_FILE"
+    echo -e "&gt; Security fingerprint \e[31mdisabled\e[0m"
+    echo -e "&gt; Restart needed to apply changes\n"
+fi</code></pre>
+<p>We create another alias requesting also the fingerprint before enabling/disabling the fingerprint check:<br><br></p>
+<pre class="language-bash"><code>alias sectermux='check_finger_access bash /data/data/com.termux/files/home/Scripts/switch_finger_check.sh'</code></pre>
+<p> </p>
+<p><strong style="font-family: var(--font-base); font-size: 1.42383em; letter-spacing: var(--letter-spacing);">DISCLAIMERS</strong></p>
+</div>
+</div>
+<div class="tittle__line"><hr class="line">
+<ul>
+<li>Blocking by alias is not a foolproof method. For example, if you want to block editing of files by creating an alias with nano, any user could bypass the fingerprint check by using any other editor or even modifying lines with sed or awk.</li>
+<li>If you have an SSH server in Termux, when you try to connect remotely, it will ask for the fingerprint in Termux (although you will probably have to open Termux before you can connect again). It would work like a 2FA.</li>
+</ul>
+</div>
+</div>
+            ]]>
+        </content>
+    </entry>
     <entry>
         <title>Auto backup for Termux</title>
         <author>
