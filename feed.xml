@@ -3,7 +3,7 @@
     <title>Cibersec and hacking blog</title>
     <link href="https://b4shnhawx.github.io/feed.xml" rel="self" />
     <link href="https://b4shnhawx.github.io" />
-    <updated>2024-08-23T13:20:13+02:00</updated>
+    <updated>2024-08-23T13:35:21+02:00</updated>
     <author>
         <name>b4shnhawx</name>
     </author>
@@ -16,6 +16,7 @@
         </author>
         <link href="https://b4shnhawx.github.io/securing-termux-with-fingerprint.html"/>
         <id>https://b4shnhawx.github.io/securing-termux-with-fingerprint.html</id>
+        <media:content url="https://b4shnhawx.github.io/media/posts/15/Screenshot_2024-08-23-13-02-28-933_com.termux-2.jpg" medium="image" />
             <category term="termux"/>
             <category term="programming"/>
             <category term="os"/>
@@ -25,12 +26,15 @@
         <updated>2024-08-23T12:42:10+02:00</updated>
             <summary>
                 <![CDATA[
-                    SECURING TERMUX WHEN OPENING A NEW TERMINAL At de beggining of the file .zshrc (.bashrc by default) # Security finger print echo "\n----==== SYSTEM LOCKED ====----\n" termux-fingerprint&hellip;
+                        <img src="https://b4shnhawx.github.io/media/posts/15/Screenshot_2024-08-23-13-02-28-933_com.termux-2.jpg" alt="" />
+                    Termux is becoming a tool I use more and more, so I started looking into how I could secure it so that only I can have access&hellip;
                 ]]>
             </summary>
         <content type="html">
             <![CDATA[
-                <div class="tittle__line">
+                    <p><img src="https://b4shnhawx.github.io/media/posts/15/Screenshot_2024-08-23-13-02-28-933_com.termux-2.jpg" class="type:primaryImage" alt="" /></p>
+                <p>Termux is becoming a tool I use more and more, so I started looking into how I could secure it so that only I can have access to it. <br><br>I've also added another small layer of security so that I can lock some commands with my fingerprint. <br><br>Lets see.<br><br></p>
+<div class="tittle__line">
 <h3><strong>SECURING TERMUX WHEN OPENING A NEW TERMINAL</strong></h3>
 <hr class="line">
 <p>At de beggining of the file .zshrc (.bashrc by default)</p>
