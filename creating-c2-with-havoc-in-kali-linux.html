@@ -1,0 +1,229 @@
+<!DOCTYPE html><html lang="en-gb"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no"><title>Creating C2 with HAVOC in Kali Linux - Cibersec and hacking blog</title><meta name="description" content="You may have heard that ‘bad guys can connect to your computer to do bad things’, but how and why? There are actually many ways to infect&hellip;"><meta name="generator" content="Publii Open-Source CMS for Static Site"><script type="gdpr-blocker/">(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+						new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+						j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+						'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+					})(window,document,'script','dataLayer','G-2WG99B8B6N');</script><link rel="canonical" href="https://b4shnhawx.github.io/creating-c2-with-havoc-in-kali-linux.html"><link rel="alternate" type="application/atom+xml" href="https://b4shnhawx.github.io/feed.xml"><link rel="alternate" type="application/json" href="https://b4shnhawx.github.io/feed.json"><meta property="og:title" content="Creating C2 with HAVOC in Kali Linux"><meta property="og:image" content="https://b4shnhawx.github.io/media/posts/16/preview.png"><meta property="og:image:width" content="781"><meta property="og:image:height" content="401"><meta property="og:site_name" content="Cibersec and hacking blog"><meta property="og:description" content="You may have heard that ‘bad guys can connect to your computer to do bad things’, but how and why? There are actually many ways to infect&hellip;"><meta property="og:url" content="https://b4shnhawx.github.io/creating-c2-with-havoc-in-kali-linux.html"><meta property="og:type" content="article"><link rel="shortcut icon" href="https://b4shnhawx.github.io/media/website/logo_looka_redonded.png" type="image/x-icon"><link rel="stylesheet" href="https://b4shnhawx.github.io/assets/css/fontawesome-all.min.css?v=85514f933f9e0b82460af63f1a403fa5"><link rel="stylesheet" href="https://b4shnhawx.github.io/assets/css/style.css?v=17ff995427160411bd19d909dd194822"><script type="application/ld+json">{"@context":"http://schema.org","@type":"Article","mainEntityOfPage":{"@type":"WebPage","@id":"https://b4shnhawx.github.io/creating-c2-with-havoc-in-kali-linux.html"},"headline":"Creating C2 with HAVOC in Kali Linux","datePublished":"2024-12-31T16:26","dateModified":"2024-12-31T19:03","image":{"@type":"ImageObject","url":"https://b4shnhawx.github.io/media/posts/16/preview.png","height":401,"width":781},"description":"You may have heard that ‘bad guys can connect to your computer to do bad things’, but how and why? There are actually many ways to infect&hellip;","author":{"@type":"Person","name":"b4shnhawx","url":"https://b4shnhawx.github.io/authors/b4shnhawx/"},"publisher":{"@type":"Organization","name":"b4shnhawx"}}</script><noscript><style>img[loading] {
+                    opacity: 1;
+                }</style></noscript></head><body class="is-preload post-template"><script>document.addEventListener("DOMContentLoaded", function() {
+    // Selecciona el contenedor donde quieres insertar el HTML
+    var sidebarInner = document.querySelector('#sidebar .inner');
+
+    // Crea el contenedor principal que contendrá el logo y el texto
+    var mainContainer = document.createElement('div');
+    mainContainer.style.position = "absolute";  // Posición absoluta para que el contenedor se ajuste correctamente
+    mainContainer.style.top = "0";  // Alinea el contenedor al borde superior del sidebar
+    mainContainer.style.left = "0";  // Alinea el contenedor al borde izquierdo del sidebar
+    mainContainer.style.width = "100%";  // Asegura que el contenedor ocupe todo el ancho del sidebar
+    mainContainer.style.height = "150px";  // Define la altura del contenedor
+    mainContainer.style.zIndex = "2";  // Asegura que el contenedor esté por encima de otros elementos
+    mainContainer.style.overflow = "hidden";  // Evita que el contenido desborde
+
+    // Crea el fondo difuminado
+    var backgroundContainer = document.createElement('div');
+    backgroundContainer.style.position = "absolute";
+    backgroundContainer.style.top = "0";
+    backgroundContainer.style.left = "0";
+    backgroundContainer.style.width = "100%";
+    backgroundContainer.style.height = "100%";
+    backgroundContainer.style.backgroundImage = "url('https://github.com/b4shnhawx/b4shnhawx.github.io/raw/main/media/files/header_bg.jpg')";
+    backgroundContainer.style.backgroundSize = "cover";  // Asegura que la imagen cubra todo el contenedor
+    backgroundContainer.style.backgroundPosition = "center";  // Centra la imagen
+    backgroundContainer.style.filter = "blur(2.5px)";  // Aplica un efecto de difuminado más ligero
+    backgroundContainer.style.zIndex = "1";  // Coloca el fondo detrás del contenido
+
+    // Crea el contenedor para el logo y el texto
+    var contentContainer = document.createElement('div');
+    contentContainer.style.display = "flex";  // Alinea los elementos horizontalmente
+    contentContainer.style.gap = "10px";  // Espacio entre los contenedores
+    contentContainer.style.width = "100%";  // Asegura que el contenedor ocupe el 100% del ancho disponible
+    contentContainer.style.height = "100%";  // Asegura que el contenedor ocupe el 100% de la altura disponible
+    contentContainer.style.zIndex = "2";  // Coloca el contenido por encima del fondo
+    contentContainer.style.position = "relative";  // Asegura que el contenido esté correctamente posicionado
+
+    // Crea el contenedor del logo
+    var logoContainer = document.createElement('div');
+    logoContainer.style.width = "150px";
+    logoContainer.style.height = "150px";
+    logoContainer.style.overflow = "hidden";  // Evita desbordamiento
+    logoContainer.style.display = "flex";  // Asegura centrado
+    logoContainer.style.alignItems = "center";
+    logoContainer.style.justifyContent = "center";
+
+    // Crea el elemento de imagen
+    var logoImg = document.createElement('img');
+    logoImg.src = "https://avatars2.githubusercontent.com/u/45437051?s=460&u=b4c1990041dd9e22c0df3f87c93b820f364c2988&v=4";
+    logoImg.alt = "Fazt Logo";
+    logoImg.classList.add('logo-sidebar');
+
+    // Añade la imagen al contenedor del logo
+    logoContainer.appendChild(logoImg);
+
+    // Crea el contenedor del texto
+    var textContainer = document.createElement('div');
+    textContainer.style.width = "150px";
+    textContainer.style.height = "150px";
+    textContainer.style.display = "flex";  // Asegura centrado vertical
+    textContainer.style.alignItems = "center";
+    textContainer.style.justifyContent = "flex-start";  // Alinea el contenido a la izquierda
+    textContainer.style.paddingLeft = "10px";  // Añade un poco de espacio desde el borde izquierdo
+
+    // Crea el elemento de texto
+    var textElement = document.createElement('div');
+    textElement.textContent = "#b4shnhawx";
+    textElement.style.fontSize = "27px";  // Aumenta el tamaño del texto
+    textElement.style.textAlign = "left";  // Justifica el texto a la izquierda
+    textElement.style.color = "#fff";  // Color blanco para que el texto sea visible
+
+    // Añade el texto al contenedor del texto
+    textContainer.appendChild(textElement);
+
+    // Añade el contenedor del logo y el contenedor del texto al contenedor de contenido
+    contentContainer.appendChild(logoContainer);
+    contentContainer.appendChild(textContainer);
+
+    // Añade el fondo difuminado al contenedor principal
+    mainContainer.appendChild(backgroundContainer);
+
+    // Añade el contenedor del contenido al contenedor principal
+    mainContainer.appendChild(contentContainer);
+
+    // Inserta el contenedor principal al inicio del contenedor de la barra lateral
+    sidebarInner.insertBefore(mainContainer, sidebarInner.firstChild);
+
+    // Crea un espaciador para evitar que el contenido de la sidebar se superponga
+    var spacer = document.createElement('div');
+    spacer.style.height = "100px";  // La misma altura que el contenedor principal
+
+    // Inserta el espaciador después del contenedor principal
+    sidebarInner.insertBefore(spacer, mainContainer.nextSibling);
+});</script><script>document.addEventListener("DOMContentLoaded", function() {
+    // Selecciona el contenedor de la barra lateral y el footer
+    var sidebarInner = document.querySelector('#sidebar .inner');
+    var footer = document.querySelector('#footer');
+
+    // Selecciona el elemento que deseas mover
+    var searchDiv = document.querySelector('#search.alt');
+
+    // Verifica que el elemento exista antes de moverlo
+    if (searchDiv) {
+        // Crea el encabezado h2 con la clase major
+        var searchHeader = document.createElement('header');
+        searchHeader.classList.add('major');
+
+        var searchTitle = document.createElement('h2');
+        searchTitle.textContent = "Search for any post...";
+        searchTitle.style.marginBottom = "15px";  // Añade espacio debajo del texto
+
+        // Añade el h2 al encabezado
+        searchHeader.appendChild(searchTitle);
+
+        // Mueve el elemento de búsqueda justo antes del footer
+        sidebarInner.insertBefore(searchDiv, footer);
+
+        // Inserta el encabezado justo antes del cuadro de búsqueda
+        sidebarInner.insertBefore(searchHeader, searchDiv);
+    }
+});</script><script>document.addEventListener("DOMContentLoaded", function() {
+    // Selecciona el primer elemento con la clase "post__tag"
+    var firstTagElement = document.querySelector("div.post__tag");
+
+    // Comprueba si el elemento existe
+    if (firstTagElement) {
+        // Crea un nuevo div con la clase "post__tag"
+        var warningBox = document.createElement("div");
+        warningBox.className = "post__tag";
+        warningBox.style.fontSize = "small"; // Haz el texto más pequeño
+
+        // Añade el contenido del texto con un salto de línea al principio y al final
+        warningBox.innerHTML = "All content published in this post is for educational purposes only and has been tested in controlled and managed environments by me.";
+
+        // Inserta el nuevo div justo después del primer div.post__tag
+        firstTagElement.insertAdjacentElement('afterend', warningBox);
+    }
+});</script><div id="wrapper"><div id="main"><div class="inner"><header id="header"><a class="logo" href="https://b4shnhawx.github.io/"><strong>Cibersec and hacking blog</strong></a><ul class="icons"><li><a href="https://x.com/_Myrtivheal" class="icon brands fa-x-twitter"><span class="label">Twitter</span></a></li><li><a href="https://www.linkedin.com/in/darribash/" class="icon brands fa-linkedin"><span class="label">LinkedIn</span></a></li><li><a href="https://www.youtube.com/channel/UCxvS-XzNNYFOq45-ScuLrxA" class="icon brands fa-youtube"><span class="label">YouTube</span></a></li></ul></header><article class="post"><header class="main post__header"><time datetime="2024-12-31T16:26" class="post__date">December 31, 2024</time><h1>Creating C2 with HAVOC in Kali Linux</h1></header><figure class="image main normal"><img src="https://b4shnhawx.github.io/media/posts/16/preview.png" srcset="https://b4shnhawx.github.io/media/posts/16/responsive/preview-xs.png 300w, https://b4shnhawx.github.io/media/posts/16/responsive/preview-sm.png 480w, https://b4shnhawx.github.io/media/posts/16/responsive/preview-md.png 768w, https://b4shnhawx.github.io/media/posts/16/responsive/preview-lg.png 1024w, https://b4shnhawx.github.io/media/posts/16/responsive/preview-xl.png 1360w, https://b4shnhawx.github.io/media/posts/16/responsive/preview-xxl.png 1600w" sizes="(max-width: 1600px) 100vw, 1600px" loading="lazy" height="401" width="781" alt=""></figure><div class="post__inner post__entry"><p>You may have heard that ‘bad guys can connect to your computer to do bad things’, but how and why?<br><br></p><h3><strong>INTRODUCING TO HAVOC C2</strong></h3><hr class="line"><p>There are actually many ways to infect a computer and get the bad guys to connect, but one of the favourite ways for cybercriminals is to make use of command and control servers (C2 or C&amp;C for friends). These servers act as the central node of a network of infected computers so that they can easily manage them all at once and send commands to the computers (called zombie computers).<br><br></p><p>Through an agent with a payload that has been installed on the computer (either by the user or by the attacker himself), the infected computer connects to the server and waits to receive commands to perform actions as we would do with a reverse shell.<br>The difference is that with a C2 server we can send commands to tens, hundreds or thousands of computers at the same time. Perfect for DDoS attacks, isn't it?<br><br></p><div style="text-align: center;"><figure class="post__image"><img loading="lazy" style="width: auto; height: auto;" src="https://raw.githubusercontent.com/b4shnhawx/b4shnhawx.github.io/refs/heads/main/media/images/c2c_infra.png" alt="Command example" data-is-external-image="true"></figure></div><p>Next we will see how to configure a Kali Linux as C2 with Havoc.<br><br></p><h3><strong>INSTALLING HAVOC</strong></h3><hr class="line"><p>First of all, update the repositories and install Havoc.<br><br></p><pre class="language-bash"><code>sudo apt update -y &amp;&amp; sudo apt upgrade -y
+sudo apt get install havoc</code></pre><h3><strong><br>HAVOC SERVER - CONFIGU</strong><strong>RING THE TEAM SERVER</strong></h3><hr class="line"><p> </p><p>Now we will move to the Havoc directory and create a new profile in which we will customise:</p><ul><li>Port (we can leave it as default: 40056)</li><li>User</li><li>Password</li></ul><pre class="language-bash"><code>cd /usr/share/havoc
+cp ./profiles/havoc.yaotl ./profiles/c2test.yaotl
+nano ./profiles/c2test.yaotl</code></pre><pre class="language-bash"><code>Teamserver {
+    Host = "0.0.0.0"
+    Port = XXXXX
+
+    Build {
+        Compiler64 = "/usr/bin/x86_64-w64-mingw32-gcc"
+        Compiler86 = "/usr/bin/i686-w64-mingw32-gcc"
+        Nasm = "/usr/bin/nasm"
+    }
+}
+
+Operators {
+    user "USER" {
+        Password = "PASSWORD"
+    }
+}
+
+# this is optional. if you dont use it you can remove it.
+Service {
+    Endpoint = "service-endpoint"
+    Password = "service-password"
+}
+
+Demon {
+    Sleep = 2
+    Jitter = 15
+
+    TrustXForwardedFor = false
+
+    Injection {
+        Spawn64 = "C:\\Windows\\System32\\notepad.exe"
+        Spawn32 = "C:\\Windows\\SysWOW64\\notepad.exe"
+    }
+}</code></pre><p>Finally, we will execute the server with our customised profile.<br><br></p><pre class="language-bash"><code>havoc server --profile ./profiles/c2test.yaotl -v</code></pre><div style="text-align: center;"><figure class="post__image"><img loading="lazy" style="width: auto; height: auto;" src="https://raw.githubusercontent.com/b4shnhawx/b4shnhawx.github.io/refs/heads/main/media/images/havoc_server.png" alt="Command example" data-is-external-image="true"></figure></div><h3><strong><br></strong><strong>HAVOC CLIENT - CONNECTING TO THE TEAM SERVER</strong></h3><hr class="line"><p>Now we must connect to the server through the client. This will be done on the same machine, but the client will be able to connect to the server from any other machine as long as it is configured.</p><p>If we want the C2 to work over the internet we must set the public IP of the C2 server.<br><br></p><pre class="language-bash"><code>havoc client</code></pre><p> </p><div style="text-align: center;"><figure class="post__image"><img loading="lazy" style="width: auto; height: auto;" src="https://raw.githubusercontent.com/b4shnhawx/b4shnhawx.github.io/refs/heads/main/media/images/havoc_client.png" alt="Command example" data-is-external-image="true"></figure></div><p>When we connect to the server, the GUI will open where we will work.<br><br></p><div style="text-align: center;"><figure class="post__image"><img loading="lazy" style="width: auto; height: auto;" src="https://raw.githubusercontent.com/b4shnhawx/b4shnhawx.github.io/refs/heads/main/media/images/havoc_client_gui.png" alt="Command example" data-is-external-image="true"></figure></div><p>The first step here is to create a listener. To do this, we will go to <em>View → Listeners → Add</em>.<br><br></p><figure class="post__image"><img loading="lazy" style="width: auto; height: auto;" src="https://raw.githubusercontent.com/b4shnhawx/b4shnhawx.github.io/refs/heads/main/media/images/havoc_listener.png" alt="Command example" data-is-external-image="true"></figure><p>Now we will create a payload with which we will make the victim connect to our C2 server. To do this we must go to the menu <em>Attack → Payload</em>, and in my case I will create an executable with the listener that we just created.<br><br>It is normal that during the process, the CPU usage is kept at 100%, as it is compiling all the payload content.<br><br></p><figure class="post__image"><img loading="lazy" style="width: auto; height: auto;" src="https://raw.githubusercontent.com/b4shnhawx/b4shnhawx.github.io/refs/heads/main/media/images/havoc_payload.png" alt="Command example" data-is-external-image="true"></figure><h3><strong>INFECTING THE VICTIM</strong></h3><hr class="line"><p>Finally, we will reproduce a real attack by running the executable on the victim machine.<br>In a normal environment, the antivirus SHOULD stop the executable (if it doesn't, change the antivirus or update it), so we will have to save a folder for the test.<br><br>To use the exception in Windows Defender, simply run the following command in a powershell with elevated permissions.<br><br></p><pre class="language-bash"><code>Add-MpPreference -ExclusionPath "C:\Users\USER\Downloads\demon.https.x64.exe"</code></pre><p><br>When we run it on the victim we will see how the machine information appears in Havoc.<br><br></p><figure class="post__image post__image--wide"><img loading="lazy" style="width: auto; height: auto;" src="https://raw.githubusercontent.com/b4shnhawx/b4shnhawx.github.io/refs/heads/main/media/images/havoc_infected.png" alt="Command example" data-is-external-image="true"></figure><figure class="post__image post__image--wide">From here, we can interact with the victim to execute commands, view files and even download them.<br><br><img loading="lazy" style="width: auto; height: auto;" src="https://raw.githubusercontent.com/b4shnhawx/b4shnhawx.github.io/refs/heads/main/media/images/havoc_interact.png" alt="Command example" data-is-external-image="true"></figure><br><br><p></p></div><footer class="post__inner post__footer"><p class="post__last-updated">This article was updated on December 31, 2024</p><div class="post__share"><h3>Share post:</h3><a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fb4shnhawx.github.io%2Fcreating-c2-with-havoc-in-kali-linux.html&amp;via=%40_Myrtivheal&amp;text=Creating%20C2%20with%20HAVOC%20in%20Kali%20Linux" class="js-share icon brands fa-x-twitter" rel="nofollow noopener noreferrer"><span class="label">Twitter</span> </a><a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fb4shnhawx.github.io%2Fcreating-c2-with-havoc-in-kali-linux.html" class="js-share icon brands fa-linkedin" rel="nofollow noopener noreferrer"><span class="label">LinkedIn</span> </a><a href="https://api.whatsapp.com/send?text=Creating%20C2%20with%20HAVOC%20in%20Kali%20Linux https%3A%2F%2Fb4shnhawx.github.io%2Fcreating-c2-with-havoc-in-kali-linux.html" class="js-share icon brands fa-whatsapp" rel="nofollow noopener noreferrer"><span class="label">WhatsApp</span></a></div><div class="post__tag"><ul><li><strong>Tagged in:</strong></li><li><a href="https://b4shnhawx.github.io/tags/hacking/">hacking</a></li><li><a href="https://b4shnhawx.github.io/tags/linux/">linux</a></li><li><a href="https://b4shnhawx.github.io/tags/offensive/">offensive</a></li><li><a href="https://b4shnhawx.github.io/tags/os/">os</a></li></ul></div></footer></article><div class="comments-area"><div class="post__inner"><div class="comments"><div class="comments-wrapper"><h2>Comments</h2><div id="graphcomment"></div><noscript>Please enable JS to use the comments form.</noscript><script type="text/javascript">var __semio__params = {
+							graphcommentId: "",
+							behaviour: {
+								uid: "16"
+							}
+						}
+
+						function __semio__onload() {
+							__semio__gc_graphlogin(__semio__params)
+						}
+						
+						
+			(function() {
+				var gc = document.createElement('script'); gc.type = 'text/javascript'; gc.async = true;
+				gc.onload = __semio__onload; gc.defer = true; gc.src = 'https://integration.graphcomment.com/gc_graphlogin.js?' + Date.now();
+				(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(gc);
+			})();</script><script type="text/javascript"></script></div></div></div></div><div class="banner banner--after-post"><div class="wrapper"><div id="graphcomment"></div><script type="text/javascript">/* - - - CONFIGURATION VARIABLES - - - */
+
+  var __semio__params = {
+    graphcommentId: "b4shnhawx-github-io", // make sure the id is yours
+
+    behaviour: {
+      // HIGHLY RECOMMENDED
+      //  uid: "...", // uniq identifer for the comments thread on your page (ex: your page id)
+    },
+
+    // configure your variables here
+    "sidePanel": {
+      "width": 480,
+      "button": {
+        "background": "#313841",
+        "color": "#e0e0e0",
+    	"width": 1000,
+        "label": "Leave a comment"
+      },
+      "visible": false
+    }
+  }
+
+  /* - - - DON'T EDIT BELOW THIS LINE - - - */
+
+  function __semio__onload() {
+    __semio__gc_sidePanel_graphlogin(__semio__params)
+  }
+
+
+  (function() {
+    var gc = document.createElement('script'); gc.type = 'text/javascript'; gc.async = true;
+    gc.onload = __semio__onload; gc.defer = true; gc.src = 'https://integration.graphcomment.com/gc_sidePanel_graphlogin.js?' + Date.now();
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(gc);
+  })();</script></div></div></div></div><div id="sidebar"><div class="inner"><div id="search" class="alt"><form action="https://b4shnhawx.github.io/search.html" class="search__form"><input class="search__input" type="search" name="q" placeholder="search..." aria-label="search..." autofocus required> <button type="submit" class="search__button"><span>Submit</span></button></form></div><nav id="menu"><header class="major"><h2>Menu</h2></header><ul><li><a href="https://b4shnhawx.github.io/" target="_self">HOME</a></li><li><a href="https://b4shnhawx.github.io/authors/b4shnhawx/" target="_self">ABOUT ME</a></li><li class="has-submenu"><a href="https://b4shnhawx.github.io/tags/" target="_self" aria-haspopup="true" class="opener">CATEGORIES</a><ul class="submenu level-2" aria-hidden="true"><li><a href="https://b4shnhawx.github.io/tags/offensive/" target="_self">HACKING OFFENSIVE</a></li><li><a href="https://b4shnhawx.github.io/tags/deffensive/" target="_self">HACKING DEFFENSIVE</a></li><li><a href="https://b4shnhawx.github.io/tags/flipperzero/" target="_self">FLIPPER ZERO</a></li><li><a href="https://b4shnhawx.github.io/tags/programming/" target="_self">PROGRAMMING</a></li><li><a href="https://b4shnhawx.github.io/tags/linux/" target="_self">LINUX</a></li><li><a href="https://b4shnhawx.github.io/tags/windows/" target="_self">WINDOWS</a></li><li><a href="https://b4shnhawx.github.io/tags/networking/" target="_self">NETWORKING</a></li><li><a href="https://b4shnhawx.github.io/tags/cheatsheets/" target="_self">CHEATSHEETS</a></li><li><a href="https://b4shnhawx.github.io/tags/personal/" target="_self">PERSONAL</a></li><li><a href="https://b4shnhawx.github.io/tags/raspberrypi/" target="_self">RASPBERRY PI</a></li></ul></li><li><a href="https://b4shnhawx.github.io/tags/" target="_self">PROJECTS</a></li></ul></nav><section><header class="major"><h2>Get in touch</h2></header><p class="align-center">--== My area of expertise ==--</p><p class="align-center"> </p><p class="align-center">🛡 Deffensive Cibersecurity 🛡</p><p class="align-center">♦️       Incident Response      ♦️<br>♦️         Threat Hunting         ♦️<br>♦️   Python and Powershell   ♦️<br>♦️          Bash and Linux         ♦️</p><p> </p><p>Contact me for any issues :D</p><p><a href="mailto:davidarribash@gmail.com">davidarribash[@]gmail[.]com</a></p></section><footer id="footer"><p class="copyright">© b4shnhawx 2024 - All rights reserved</p></footer></div></div></div><script src="https://b4shnhawx.github.io/assets/js/jquery.min.js?v=7c14a783dfeb3d238ccd3edd840d82ee"></script><script src="https://b4shnhawx.github.io/assets/js/browser.min.js?v=c07298dd19048a8a69ad97e754dfe8d0"></script><script src="https://b4shnhawx.github.io/assets/js/breakpoints.min.js?v=81a479eb099e3b187613943b085923b8"></script><script src="https://b4shnhawx.github.io/assets/js/util.min.js?v=cbdaf7c20ac2883c77ae23acfbabd47e"></script><script src="https://b4shnhawx.github.io/assets/js/main.min.js?v=08add7f6d435054ad38ec38d7cf8be40"></script><script>var images=document.querySelectorAll("img[loading]");for(var i=0;i<images.length;i++){if(images[i].complete){images[i].classList.add("is-loaded")}else{images[i].addEventListener("load",function(){this.classList.add("is-loaded")},false)}};</script></body></html>
